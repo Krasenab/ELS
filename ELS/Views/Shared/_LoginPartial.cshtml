@@ -1,0 +1,41 @@
+﻿@using ElsModels.SQL
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<ul class="flex justify-between items-center py-2">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index"
+               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                Hello @User.Identity?.Name!
+            </a>
+        </li>
+        <li>
+            <form asp-area="Identity" asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                  class="inline">
+                <button type="submit"
+                        class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200 focus:outline-none">
+                    Logout
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Register"
+               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                Register
+            </a>
+        </li>
+        <li>
+            <a asp-area="Identity" asp-page="/Account/Login"
+               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                Login
+            </a>
+        </li>
+    }
+</ul>

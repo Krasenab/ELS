@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EquipLogSystem</title>
+
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+    <header>
+        <nav class="bg-gray-800 shadow-md">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <!-- Logo -->
+                    <a asp-area="" asp-controller="Home" asp-action="Index"
+                       class="text-xl font-semibold text-white hover:text-sky-400 transition-colors duration-200">
+                        EquipLogSystem
+                    </a>
+                    <!-- Desktop menu -->
+                    <div class="hidden md:flex space-x-6">
+                        <a asp-area="" asp-controller="Home" asp-action="Index"
+                           class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                            Home
+                        </a>
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy"
+                           class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                            Privacy
+                        </a>
+                        <div class="border-l border-gray-600 pl-6">
+                            <partial name="_LoginPartial" class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200" />
+                        </div>
+                    </div>
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-button" class="md:hidden text-gray-200 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden bg-gray-700">
+                <div class="px-6 pb-4 space-y-2">
+                    <a asp-area="" asp-controller="Home" asp-action="Index"
+                       class="block px-3 py-2 font-medium text-gray-200 rounded hover:bg-gray-600 hover:text-sky-400 transition-colors duration-200">
+                        Home
+                    </a>
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy"
+                       class="block px-3 py-2 font-medium text-gray-200 rounded hover:bg-gray-600 hover:text-sky-400 transition-colors duration-200">
+                        Privacy
+                    </a>
+                    <div class="pt-2 border-t border-gray-600">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow">
+        <div class="max-w-7x1 mx-auto px-4 py-6">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Brand -->
+            <div>
+                <a asp-area="" asp-controller="Home" asp-action="Index"
+                   class="text-xl font-semibold text-white hover:text-sky-400 transition-colors duration-200">
+                    EquipLogSystem
+                </a>
+                <p class="mt-3 text-sm">
+                    Управление на оборудването с лекота и сигурност.
+                </p>
+            </div>
+            <!-- Links -->
+            <div>
+                <h3 class="font-semibold mb-3 text-white">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Index"
+                           class="hover:text-sky-400 transition-colors duration-200">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy"
+                           class="hover:text-sky-400 transition-colors duration-200">
+                            Privacy Policy
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Copyright -->
+            <div class="md:text-right text-sm">
+                <p>&copy; 2025 EquipLogSystem</p>
+                <p class="mt-2">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy"
+                       class="underline hover:text-sky-400 transition-colors duration-200">
+                        Privacy Policy
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery и site.js за AJAX или бъдеща логика -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Toggle mobile menu
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
