@@ -22,6 +22,7 @@
     <ProjectReference Include="..\ELS.Data\ELS.Data.csproj" />
     <ProjectReference Include="..\ELS.Infrastrucure\ELS.Infrastrucure.csproj" />
     <ProjectReference Include="..\ELS.Service\ELS.Service.csproj" />
+    <ProjectReference Include="..\ELS.ViewModels\ELS.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

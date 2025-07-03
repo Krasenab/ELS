@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELS.Service.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace ELS.Service
 {
-    public class EquipmentService
+    public class EquipmentService:IEquipmentService
     {
+
     }
 }

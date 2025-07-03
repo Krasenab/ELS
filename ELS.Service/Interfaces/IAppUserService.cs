@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ELS.Service.Interfaces
 {
-    public class IEquipment
+    public interface IAppUserService
     {
     }
 }

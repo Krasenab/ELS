@@ -1,5 +1,6 @@
 using ELS.Data;
 using ELS.Service;
+using ELS.Service.Interfaces;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,9 @@ namespace ELS
                 .AddEntityFrameworkStores<ElsDbContext>();
             builder.Services.AddControllersWithViews();
 
-            //add my services using builder extension
-            builder.Services.AddServices(typeof(EquipmentService));
+            //add my services 
+            builder.Services.AddScoped<IAppUserService, AppUserService>();
+            builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 
             var app = builder.Build();
 

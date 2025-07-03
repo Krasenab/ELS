@@ -5,7 +5,7 @@ namespace ELS.Infrastrucure
 {
     public static class WebAppBuilderExtensions
     {
-        public static void AddServices(this IServiceCollection services, Type serviceType)
+        public static void AddMyServices(this IServiceCollection services, Type serviceType)
         {
             Assembly? serviceAssembly = Assembly.GetAssembly(serviceType);
             if (serviceAssembly == null)
