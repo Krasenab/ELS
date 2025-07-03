@@ -6,6 +6,7 @@ namespace ELS.ViewModels
 {
     public class RegisterViewModel
     {
+      
 
         [Required]
         [MaxLength(ApplicationUserNameMaxLenght)]
@@ -25,6 +26,10 @@ namespace ELS.ViewModels
         [Required]
         [MaxLength(DepartmentMaxLength)]
         public string Department { get; set; }
+
+        public string Password { get; set; }
+
+
 
     }
 }

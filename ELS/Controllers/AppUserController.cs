@@ -1,5 +1,6 @@
 ﻿using ELS.Service;
 using ELS.Service.Interfaces;
+using ELS.ViewModels;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +28,8 @@ namespace ELS.Controllers
         [HttpGet]
         public IActionResult Regiser()
         {
-
-            return View();
+            RegisterViewModel vm = new RegisterViewModel();
+            return View(vm);
         }
     }
 }
