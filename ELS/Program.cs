@@ -1,7 +1,10 @@
 using ELS.Data;
+using ELS.Service;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using static ELS.Infrastrucure.WebAppBuilderExtensions;
 
 namespace ELS
 {
@@ -20,6 +23,9 @@ namespace ELS
             builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ElsDbContext>();
             builder.Services.AddControllersWithViews();
+
+            //add my services using builder extension
+            builder.Services.AddServices(typeof(EquipmentService));
 
             var app = builder.Build();
 
