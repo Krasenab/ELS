@@ -8,5 +8,6 @@ namespace ELS.Service.Interfaces
 {
     public interface IAppUserService
     {
+        string UserEmail(string firmId);
     }
 }

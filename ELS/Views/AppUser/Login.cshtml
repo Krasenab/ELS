@@ -1,0 +1,60 @@
+﻿@model LoginViewModel;
+<main class="flex-grow font-sans antialiased bg-gradient-to-br from-sky-50 to-white">
+
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+        <!-- Blobs -->
+        <div class="absolute -top-32 -left-32 w-80 h-80 bg-sky-300 rounded-full filter blur-3xl mix-blend-multiply opacity-30"></div>
+        <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-sky-100 rounded-full filter blur-3xl mix-blend-multiply opacity-20"></div>
+
+        <div class="relative max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-10">
+                <div class="flex justify-center mb-6 space-x-2">
+                    <i class="fas fa-sign-in-alt text-3xl text-sky-400"></i>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Вход в <span class="text-sky-400">EquipLog</span></h1>
+                </div>
+                <form  method="post" class="space-y-6">
+                    <div class="relative">
+                        <input asp-for="FirmId" type="text" required placeholder=" "
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="FirmId"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500
+                          peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
+                          peer-focus:top-3 peer-focus:text-sm peer-focus:text-sky-400
+                          transition-all pointer-events-none">
+                            FirmId
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span asp-validation-for="FirmId" class="text-red-600 text-sm"></span>
+                    </div>
+                    <div class="relative">
+                        <input asp-for="Password" type="password" required placeholder=" "
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="Password"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500
+                          peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
+                          peer-focus:top-3 peer-focus:text-sm peer-focus:text-sky-400
+                          transition-all pointer-events-none">
+                            Парола
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <span asp-validation-for="Password" class="text-red-600 text-sm"></span>
+                    </div>
+                   
+                    <button type="submit"
+                            class="w-full flex justify-center items-center gap-2 px-6 py-3 bg-sky-400 text-white text-base font-semibold rounded-full shadow-xl
+                         hover:bg-sky-500 transform hover:-translate-y-0.5 transition focus:outline-none focus:ring-4 focus:ring-sky-400">
+                        <i class="fas fa-unlock-alt"></i> Вход
+                    </button>
+                </form>
+                
+            </div>
+        </div>
+    </section>
+
+</main>

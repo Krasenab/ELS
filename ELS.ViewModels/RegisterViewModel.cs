@@ -26,8 +26,13 @@ namespace ELS.ViewModels
         [Required]
         [MaxLength(DepartmentMaxLength)]
         public string Department { get; set; }
-
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password does not match")]
+        public string ConfirmPassword { get; set; }
 
 
 

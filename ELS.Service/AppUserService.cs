@@ -11,8 +11,11 @@ namespace ELS.Service
             _dbContext = dbContext;
         }
 
+        public string UserEmail(string firmId)
+        {
+            string? result = _dbContext.AppUsers.Where(x=>x.FirmId==firmId).Select(e=>e.Email).FirstOrDefault();
 
-
-
+            return result;
+        }
     }
 }
