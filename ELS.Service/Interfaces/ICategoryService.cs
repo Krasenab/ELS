@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ELS.Service.Interfaces
 {
-    public interface IEquipmentService
+    public interface ICategoryService
     {
-        public Task AddEquipmentAsync(AddEquipmentViewModel viewModel);
+        public Task<List<CategoryViewModel>> GetAllCategoriesAsync();
     }
 }

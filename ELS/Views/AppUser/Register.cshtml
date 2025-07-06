@@ -2,7 +2,7 @@
 
 <div class="flex-grow font-sans antialiased bg-gradient-to-br from-white to-sky-50">
     <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-        <!-- Decorative blobs -->
+
         <div class="absolute -top-32 -left-32 w-80 h-80 bg-sky-300 rounded-full filter blur-3xl mix-blend-multiply opacity-30"></div>
         <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-sky-100 rounded-full filter blur-3xl mix-blend-multiply opacity-20"></div>
 
@@ -22,7 +22,7 @@
                       class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @Html.AntiForgeryToken()
 
-                    @* First & Last name side by side *@
+
                     <div class="relative">
                         <input asp-for="FirstName" placeholder=" " required
                                class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
@@ -59,7 +59,7 @@
                         <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
                     </div>
 
-                    @* FirmId & Department *@
+
                     <div class="relative">
                         <input asp-for="FirmId" placeholder=" " required
                                class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
@@ -96,7 +96,6 @@
                         <span asp-validation-for="Department" class="text-red-600 text-sm"></span>
                     </div>
 
-                    @* Email full width *@
                     <div class="md:col-span-2 relative">
                         <input asp-for="Email" type="email" placeholder=" " required
                                class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
@@ -115,7 +114,7 @@
                         <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
                     </div>
 
-                    @* Password & Confirm side by side *@
+
                     <div class="relative">
                         <input asp-for="Password" type="password" placeholder=" " required
                                class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
@@ -151,7 +150,7 @@
                         <span asp-validation-for="ConfirmPassword" class="text-red-600 text-sm"></span>
                     </div>
 
-                    @* Submit *@
+
                     <div class="md:col-span-2 text-center mt-4">
                         <button type="submit"
                                 class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-sky-600 text-white text-base font-semibold rounded-full shadow-xl
