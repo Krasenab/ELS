@@ -9,6 +9,7 @@ namespace ELS.Service.Interfaces
 {
     public interface ICategoryService
     {
+       
         public Task<List<CategoryViewModel>> GetAllCategoriesAsync();
     }
 }

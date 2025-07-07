@@ -13,7 +13,7 @@ namespace ELS.Service
         {
             this._dbContext = dbContext;
         }
-        public Task AddEquipmentAsync(AddEquipmentViewModel viewModel)
+        public async Task AddEquipmentAsync(AddEquipmentViewModel viewModel)
         {
             Equipment equipment = new Equipment()
             {
@@ -30,11 +30,15 @@ namespace ELS.Service
                 Manufacturer = viewModel.Manufacturer,
                 SerialNumber = viewModel.SerialNumber,
                 Location = viewModel.Location,
+                CategoryId = viewModel.CategoryId,
                EquipmentWarrantyMonths = viewModel.EquipmentWarrantyMonths,
                Model = viewModel.Model,
-               
+                 
             };
-            throw new NotImplementedException();
+
+            equipment.CreatedAt = DateTime.UtcNow;
+           await _dbContext.Equipments.AddAsync(equipment);
+           await _dbContext.SaveChangesAsync();
         }
     }
 }

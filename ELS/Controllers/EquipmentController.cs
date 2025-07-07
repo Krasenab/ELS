@@ -1,6 +1,7 @@
 ﻿using ELS.Service;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
+using ElsModels.SQL;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ELS.Controllers
@@ -9,6 +10,7 @@ namespace ELS.Controllers
     {
         private ICategoryService _categoryService;
         private IEquipmentService _equipmentService;
+
         public EquipmentController(ICategoryService categoryService, IEquipmentService equipmentService)
         {
             _categoryService = categoryService;
@@ -25,6 +27,21 @@ namespace ELS.Controllers
                Categories = allCategories
             };
             return View(inputView);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddEquipmentViewModel viewModel) 
+        {
+          await  _equipmentService.AddEquipmentAsync(viewModel);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult All() 
+        {
+            
+           
+            return View();
         }
 
 
