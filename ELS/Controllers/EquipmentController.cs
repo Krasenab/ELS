@@ -37,11 +37,11 @@ namespace ELS.Controllers
         }
 
         [HttpGet]
-        public IActionResult All() 
+        public async Task<IActionResult> All() 
         {
             
-           
-            return View();
+           List<AllEquipmentViewModel> getAll = await _equipmentService.GetAllEquipmentAsync();
+            return View(getAll);
         }
 
 

@@ -2,6 +2,8 @@
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using ElsModels.SQL;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELS.Service
 {
@@ -39,6 +41,30 @@ namespace ELS.Service
             equipment.CreatedAt = DateTime.UtcNow;
            await _dbContext.Equipments.AddAsync(equipment);
            await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync()
+        {
+            return _dbContext.Equipments.Select(e => new AllEquipmentViewModel()
+            {
+                Id = e.Id.ToString(),
+                EquipmentName = e.EquipmentName,
+                SerialNumber = e.SerialNumber,
+                AddedFrom = e.AddedFrom,
+                CreatedAt = e.CreatedAt,
+                CurrentStatus = e.CurrentStatus,
+                Category = e.Category.Name,
+                LifeSpanYears = e.LifeSpanYears,
+                AssetTag = e.AssetTag,
+                Location = e.Location,
+                Manufacturer = e.Manufacturer,
+                Model = e.Model,
+                Description = e.Description,
+                EquipmentWarrantyMonths = e.EquipmentWarrantyMonths,
+                CustomProperties = e.CustomProperties,
+                Notes = e.Notes,
+               
+            }).ToListAsync();
         }
     }
 }

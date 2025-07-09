@@ -1,14 +1,10 @@
 ﻿using ELS.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ELS.Service.Interfaces
 {
     public interface IEquipmentService
     {
         public Task AddEquipmentAsync(AddEquipmentViewModel viewModel);
+        public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync();
     }
 }
