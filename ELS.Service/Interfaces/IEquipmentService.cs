@@ -8,5 +8,6 @@ namespace ELS.Service.Interfaces
         public Task AddEquipmentAsync(AddEquipmentViewModel viewModel);
         public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync();
         public List<EquipmentStatus> GetEuqipmentStatues(); 
+
     }
 }
