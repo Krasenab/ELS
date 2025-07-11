@@ -51,9 +51,11 @@
                                 class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
                            focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition">
                             <option value="">-- Статус --</option>
-                            <option>Available</option>
-                            <option>In Use</option>
-                            <option>Maintenance</option>
+                            @foreach (var status in Model.EquipmentStatuses)
+                            {
+
+                                <option value="@status">@status.ToString()</option>
+                            }
                         </select>
                         <label asp-for="CurrentStatus"
                                class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500

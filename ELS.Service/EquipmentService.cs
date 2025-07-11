@@ -1,8 +1,10 @@
-﻿using ELS.Data;
+﻿using Els.ViewModels.Enums;
+using ELS.Data;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ELS.Service
@@ -33,15 +35,16 @@ namespace ELS.Service
                 SerialNumber = viewModel.SerialNumber,
                 Location = viewModel.Location,
                 CategoryId = viewModel.CategoryId,
-               EquipmentWarrantyMonths = viewModel.EquipmentWarrantyMonths,
-               Model = viewModel.Model,
-                 
+                EquipmentWarrantyMonths = viewModel.EquipmentWarrantyMonths,
+                Model = viewModel.Model,
+
             };
 
             equipment.CreatedAt = DateTime.UtcNow;
-           await _dbContext.Equipments.AddAsync(equipment);
-           await _dbContext.SaveChangesAsync();
+            await _dbContext.Equipments.AddAsync(equipment);
+            await _dbContext.SaveChangesAsync();
         }
+
 
         public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync()
         {
@@ -63,8 +66,13 @@ namespace ELS.Service
                 EquipmentWarrantyMonths = e.EquipmentWarrantyMonths,
                 CustomProperties = e.CustomProperties,
                 Notes = e.Notes,
-               
+
             }).ToListAsync();
         }
+
+        public List<EquipmentStatus> GetEuqipmentStatues()
+        {
+            return Enum.GetValues(typeof(EquipmentStatus)).Cast<EquipmentStatus>().ToList();
+        } 
     }
 }

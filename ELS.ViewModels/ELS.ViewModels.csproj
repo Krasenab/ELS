@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Els.Constants\Els.Constants.csproj" />
+    <ProjectReference Include="..\Els.ViewModels.Enums\Els.ViewModels.Enums.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Els.ViewModels.Enums;
+using System.ComponentModel.DataAnnotations;
+
 
 using static Els.Constants.EntityValidationsConstants;
 namespace ELS.ViewModels
@@ -15,9 +17,12 @@ namespace ELS.ViewModels
         [MaxLength(EquipmentNameMaxLength)]
         public string EquipmentName { get; set; }
 
+
         [Required]
-        [MaxLength(EquipmentStatusMaxLength)]
         public string CurrentStatus { get; set; }
+        public IEnumerable<EquipmentStatus> EquipmentStatuses { get; set; }
+      
+        
         [Required]
         public string Description { get; set; }
         [Required]

@@ -8,6 +8,10 @@ namespace Els.ViewModels.Enums
 {
     public enum TicketStatus
     {
+      Open,
+      InProgress,
+      Closed,
+      Cancelled
         
     }
 }

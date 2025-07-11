@@ -1,4 +1,5 @@
-﻿using ELS.Service;
+﻿using Els.ViewModels.Enums;
+using ELS.Service;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using ElsModels.SQL;
@@ -21,10 +22,11 @@ namespace ELS.Controllers
         public async Task<IActionResult> Add()
         {
             List<CategoryViewModel> allCategories = await _categoryService.GetAllCategoriesAsync();
-
             AddEquipmentViewModel inputView = new AddEquipmentViewModel() 
             {
-               Categories = allCategories
+               Categories = allCategories,
+               EquipmentStatuses = _equipmentService.getEuqipmentStatues()
+               
             };
             return View(inputView);
         }
@@ -33,6 +35,7 @@ namespace ELS.Controllers
         public async Task<IActionResult> Add(AddEquipmentViewModel viewModel) 
         {
           await  _equipmentService.AddEquipmentAsync(viewModel);
+
             return RedirectToAction("Index", "Home");
         }
 

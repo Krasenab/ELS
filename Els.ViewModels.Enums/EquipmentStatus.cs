@@ -2,6 +2,8 @@
 {
     public enum EquipmentStatus
     {
-
+        Operational,
+        UnderMaintenance,
+        OutOfService
     }
 }
