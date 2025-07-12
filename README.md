@@ -1,4 +1,4 @@
-# ELS - EQUIP LOG SYSTEM
+# ELS - EQUIPMENT LOG SYSTEM
 
 **Project Overview**
 A simple, clean ticketing system for equipment maintenance and service requests. 
