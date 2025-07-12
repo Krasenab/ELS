@@ -45,6 +45,31 @@ namespace ELS.Service
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task EditEquipmentAsync(EditEquipmentViewModel viewModel)
+        {
+            Equipment? e = await _dbContext.Equipments.Where(e=>e.Id.ToString()==viewModel.Id).FirstOrDefaultAsync();
+           
+            
+            e.EquipmentName = viewModel.EquipmentName;
+            e.CurrentStatus = viewModel.CurrentStatus;
+            e.AddedFrom = viewModel.AddedFrom;
+            e.SerialNumber = viewModel.SerialNumber;
+            e.LifeSpanYears = viewModel.LifeSpanYears;
+            e.Model = viewModel.Model;
+            e.CustomProperties = viewModel.CustomProperties;
+            e.AssetTag = viewModel.AssetTag;
+            e.CreatedAt = DateTime.UtcNow;
+            e.Notes = viewModel.Notes;
+            e.Description = viewModel.Description;
+            e.Location = viewModel.Location;
+            e.CategoryId = viewModel.CategoryId;
+            e.Manufacturer = viewModel.Manufacturer;
+            e.EquipmentWarrantyMonths = viewModel.EquipmentWarrantyMonths;
+
+            await _dbContext.SaveChangesAsync();
+
+           
+        }
 
         public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync()
         {
@@ -68,6 +93,31 @@ namespace ELS.Service
                 Notes = e.Notes,
 
             }).ToListAsync();
+        }
+
+        public async Task<EditEquipmentViewModel> GetEquipmetForEditByIdAsync(string id)
+        {
+           EditEquipmentViewModel? equipment = await _dbContext.Equipments.Where(e=>e.Id.ToString()==id).Select(e => new EditEquipmentViewModel() 
+           {
+               Id = e.Id.ToString(),
+               EquipmentName = e.EquipmentName,
+               SerialNumber = e.SerialNumber,
+               AddedFrom = e.AddedFrom,
+               CurrentStatus = e.CurrentStatus,
+               AssetTag= e.AssetTag,
+               Location = e.Location,
+               Manufacturer = e.Manufacturer,
+               Model = e.Model,
+               Description = e.Description,
+               CreatedAt = e.CreatedAt,
+               Notes =e.Notes,
+               LifeSpanYears = e.LifeSpanYears,
+               EquipmentWarrantyMonths=e.EquipmentWarrantyMonths,
+               CustomProperties = e.CustomProperties,
+               
+           }).FirstOrDefaultAsync();
+
+            return equipment;
         }
 
         public List<EquipmentStatus> GetEuqipmentStatues()

@@ -25,8 +25,7 @@ namespace ELS.Controllers
             AddEquipmentViewModel inputView = new AddEquipmentViewModel() 
             {
                Categories = allCategories,
-               EquipmentStatuses = _equipmentService.getEuqipmentStatues()
-               
+               EquipmentStatuses = _equipmentService.GetEuqipmentStatues()               
             };
             return View(inputView);
         }

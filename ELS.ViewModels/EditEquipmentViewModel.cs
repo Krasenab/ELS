@@ -1,13 +1,17 @@
 ﻿using Els.ViewModels.Enums;
 using System.ComponentModel.DataAnnotations;
 
-
+using static Els.Constants.EntityValidationsConstants;
 namespace ELS.ViewModels
 {
     public class EditEquipmentViewModel
     {
+
+        public string Id { get; set; }
+
         [Required]
         [MaxLength(EquipmentNameMaxLength)]
+        [MinLength(EquipmentNameMinLength)]
         public string EquipmentName { get; set; }
 
 
@@ -20,6 +24,7 @@ namespace ELS.ViewModels
         public string Description { get; set; }
         [Required]
         [MaxLength(EquipmentSerialNumberMaxLength)]
+        [MinLength(EquipmentSerialNumberMinLength)]
         public string SerialNumber { get; set; }
 
         [Required]
@@ -28,6 +33,7 @@ namespace ELS.ViewModels
         public int EquipmentWarrantyMonths { get; set; }
         [Required]
         [MaxLength(EquipmentManufacturerMaxLength)]
+        [MinLength(EquipmentSerialNumberMinLength)]
         public string Manufacturer { get; set; }
         [Required]
         [MaxLength(EquipmentModelMaxLength)]
