@@ -113,6 +113,17 @@ namespace ELS.Service
                 );
             }
 
+            if (!string.IsNullOrEmpty(category)) 
+            {
+                string searchedCategory = category.Trim() + "%";
+
+                query = query.Where(ec =>
+                    
+                    EF.Functions.Like(ec.Category.Name,category)
+
+                );
+            }
+
 
             result = await query.Select(e => new AllEquipmentViewModel()
             {

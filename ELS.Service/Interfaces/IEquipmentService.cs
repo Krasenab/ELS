@@ -12,5 +12,9 @@ namespace ELS.Service.Interfaces
         public Task<EditEquipmentViewModel> GetEquipmetForEditByIdAsync(string id);
         public Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm,string category);
          
+
+
+
+
     }
 }
