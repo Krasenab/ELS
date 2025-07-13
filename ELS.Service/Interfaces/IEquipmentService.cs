@@ -10,6 +10,7 @@ namespace ELS.Service.Interfaces
         public List<EquipmentStatus> GetEuqipmentStatues(); 
         public Task EditEquipmentAsync(EditEquipmentViewModel viewModel);
         public Task<EditEquipmentViewModel> GetEquipmetForEditByIdAsync(string id);
+        public Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm,string category);
          
     }
 }

@@ -41,12 +41,24 @@ namespace ELS.Controllers
         [HttpGet]
         public async Task<IActionResult> All() 
         {
-            
-           List<AllEquipmentViewModel> getAll = await _equipmentService.GetAllEquipmentAsync();
-            return View(getAll);
+
+            FilteredEquipmentViewModel model = new FilteredEquipmentViewModel()
+            {
+                SearchTerm = "",
+                StatusFilter = "",
+                AllEquipment = await _equipmentService.GetAllEquipmentAsync(),
+                Categories = await _categoryService.GetAllCategoriesAsync()
+            };
+            return View(model);
         }
 
-
+        [HttpGet]
+        public async Task<IActionResult> AllFiltered(string searchTerm, string category) 
+        {
+          var view = await _equipmentService.GetAllFilteredEquipmentAsync(searchTerm, category);
+            return PartialView("_AllFilteredEquipmentPartial", view);
+        } 
+        
 
 
         [HttpGet]

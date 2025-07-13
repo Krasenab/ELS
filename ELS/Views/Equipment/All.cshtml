@@ -1,4 +1,4 @@
-﻿@model List<AllEquipmentViewModel>
+﻿@model FilteredEquipmentViewModel;
 @{
     ViewData["Title"] = "All Equipment";
 
@@ -20,7 +20,7 @@
 
                 <!-- Search Input -->
                 <div class="relative flex-1">
-                    <input id="search"
+                    <input id="searchByText"
                            type="search"
                            placeholder="Search equipment..."
                            class="w-full pl-12 pr-4 py-3 rounded-full bg-white text-gray-800 placeholder-gray-400
@@ -30,14 +30,16 @@
                     </span>
                 </div>
 
-                <!-- Status Filter -->
+                <!-- Category Filter -->
                 <div class="relative w-full sm:w-64">
-                    <select id="statusFilter"
+                    <select id="categoryFilter"
                             class="w-full appearance-none pl-4 pr-10 py-3 rounded-full bg-white text-gray-800
                    focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-shadow shadow-sm hover:shadow">
                         <option value="">All Statuses</option>
-                        <option value="available">Available</option>
-                        <option value="in-use">In Use</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Name">@category.Name</option>
+                        }
                     </select>
                     <!-- Custom arrow -->
                    @*  <span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
@@ -50,87 +52,31 @@
     </section>
 
     <!-- Equipment Grid -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div id="equipmentList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            @foreach (var item in Model)
-            {
-                var isAvailable = item.CurrentStatus?.ToLower() == "available";
-                var badgeBg = isAvailable ? "bg-green-100" : "bg-red-100";
-                var badgeText = isAvailable ? "text-green-800" : "text-red-800";
-                var statusIcon = isAvailable ? "fa-check-circle text-green-600" : "fa-times-circle text-red-600";
-                <div data-status="@(item.CurrentStatus?.ToLower().Replace(' ', '-'))"
-                     class="relative bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-lg
-                  hover:shadow-2xl hover:ring-2 hover:ring-sky-400 transform hover:scale-105 transition">
-                    <!-- Status badge -->
-                    <span class="absolute top-4 right-4 inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full @badgeBg @badgeText">
-                        <i class="fas @statusIcon mr-1"></i>
-                        @item.CurrentStatus
-                    </span>
-
-                    <!-- Icon placeholder -->
-                    <div class="flex items-center justify-center h-32 text-sky-400 mb-4">
-                        <i class="fas fa-box-open text-6xl"></i>
-                    </div>
-
-                    <!-- Content -->
-                    <h3 class="text-lg font-semibold text-gray-800 mb-1 mt-1 ">Item name: @item.EquipmentName</h3>
-                    <p class="text-sm text-gray-600 mb-2">Category: @item.Category</p>
-                    <p class="text-sm text-gray-500 mb-4">Serial number: @item.SerialNumber</p>
-                    <p class="text-sm text-gray-700 line-clamp-3 mb-6">Description: @item.Description</p>
-
-                    <!-- Footer -->
-                    <div class="flex items-center justify-between">
-                        <span class="flex items-center text-sm text-gray-600">
-                            <i class="fas fa-map-marker-alt mr-1 text-sky-500"></i>
-                            item location: @item.Location 
-                        </span>
-                        <a asp-controller="Equipment" asp-action="Details" asp-route-id="@item.Id"
-                           class="inline-flex items-center bg-sky-500 text-white px-4 py-2 rounded-full text-sm font-medium shadow
-                    hover:bg-sky-600 transition">
-                            <i class="fas fa-arrow-right mr-1"></i> View
-                        </a>
-                        <a asp-controller="Equipment" asp-action="Edit" asp-route-id="@item.Id"
-                           class="inline-flex items-center bg-yellow-200 text-white px-4 py-2 rounded-full text-sm font-medium shadow
-                    hover:bg-yellow-300 transition">
-                            <i class=""></i> Edit
-                        </a>
-                    </div>
-                </div>
-            }
-
-            @if (!Model.Any())
-            {
-                <p class="col-span-full text-center text-gray-500">No equipment found.</p>
-            }
-        </div>
-    </section>
+    <div id="allEquipmentPartial"  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+       <partial name="_AllFilteredEquipmentPartial" model="Model.AllEquipment"/>
+    </div>
 
 </div>
 
-@section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script>
-        $(function () {
-            let debounce;
-            function loadEquipment() {
-                const query = $('#search').val();
-                const status = $('#statusFilter').val();
-                $.ajax({
-                    url: '@Url.Action("Filter", "Equipment")',
-                    type: 'GET',
-                    data: { query, status },
-                    success: function (html) {
-                        $('#equipmentList').html(html);
-                    }
-                });
-            }
-
-            $('#search').on('keyup', function () {
-                clearTimeout(debounce);
-                debounce = setTimeout(loadEquipment, 300);
-            });
-
-            $('#statusFilter').on('change', loadEquipment);
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+<script>
+    AOS.init({ duration: 600, once: true });
+    function loadEquipment(search, category) {
+        $.get("/Equipment/AllFiltered", {
+            searchTerm: search,
+            category: category
+        }, function (html) {
+            $("#allEquipmentPartial").html(html);
+            AOS.refresh();
         });
-    </script>
-}
+    }
+
+    $(function () {
+        loadEquipment("@Model.SearchTerm", "@Model.CategoryFilter");
+        $('#searchByText').on("input", function () {
+            loadEquipment(this.value, $('#categoryFilter').val());
+        });
+    });
+</script>

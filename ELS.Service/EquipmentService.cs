@@ -90,9 +90,51 @@ namespace ELS.Service
                 Description = e.Description,
                 EquipmentWarrantyMonths = e.EquipmentWarrantyMonths,
                 CustomProperties = e.CustomProperties,
-                Notes = e.Notes,
+                Notes = e.Notes
 
             }).ToListAsync();
+        }
+
+        public async Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm, string category)
+        {
+            List<AllEquipmentViewModel> result = new List<AllEquipmentViewModel>();
+
+            var query = _dbContext.Equipments.Include(c=>c.Category).AsQueryable();
+            if (!string.IsNullOrEmpty(searchTerm) || !string.IsNullOrWhiteSpace(searchTerm)) 
+            {
+                string serchTerm = searchTerm.Trim() + "%";
+                query = query.Where(x =>
+                    EF.Functions.Like(x.SerialNumber,serchTerm)||
+                    EF.Functions.Like(x.EquipmentName,serchTerm)||
+                    EF.Functions.Like(x.Manufacturer,serchTerm)||
+                    EF.Functions.Like(x.AssetTag,serchTerm)||
+                    EF.Functions.Like(x.AddedFrom,serchTerm)||
+                    EF.Functions.Like(x.LifeSpanYears.ToString(),serchTerm)
+                );
+            }
+
+
+            result = await query.Select(e => new AllEquipmentViewModel()
+            {
+                Id = e.Id.ToString(),
+                EquipmentName = e.EquipmentName,
+                SerialNumber = e.SerialNumber,
+                AddedFrom = e.AddedFrom,
+                CreatedAt = e.CreatedAt,
+                CurrentStatus = e.CurrentStatus,
+                Category = e.Category.Name,
+                LifeSpanYears = e.LifeSpanYears,
+                AssetTag = e.AssetTag,
+                Location = e.Location,
+                Manufacturer = e.Manufacturer,
+                Model = e.Model,
+                Description = e.Description,
+                EquipmentWarrantyMonths = e.EquipmentWarrantyMonths,
+                CustomProperties = e.CustomProperties,
+                Notes = e.Notes
+            }).ToListAsync();
+            
+            return result;
         }
 
         public async Task<EditEquipmentViewModel> GetEquipmetForEditByIdAsync(string id)
