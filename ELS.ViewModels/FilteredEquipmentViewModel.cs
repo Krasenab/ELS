@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELS.Service.Interfaces
+namespace ELS.ViewModels
 {
-    public interface ITicketService
+    public class FilteredEquipmentViewModel
     {
-        public Task CreateTicket();
     }
 }

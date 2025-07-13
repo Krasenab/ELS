@@ -48,7 +48,7 @@ namespace ELS.Service
         public async Task EditEquipmentAsync(EditEquipmentViewModel viewModel)
         {
             Equipment? e = await _dbContext.Equipments.Where(e=>e.Id.ToString()==viewModel.Id).FirstOrDefaultAsync();
-           
+
             
             e.EquipmentName = viewModel.EquipmentName;
             e.CurrentStatus = viewModel.CurrentStatus;

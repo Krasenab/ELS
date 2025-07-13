@@ -89,6 +89,11 @@
                     hover:bg-sky-600 transition">
                             <i class="fas fa-arrow-right mr-1"></i> View
                         </a>
+                        <a asp-controller="Equipment" asp-action="Edit" asp-route-id="@item.Id"
+                           class="inline-flex items-center bg-yellow-200 text-white px-4 py-2 rounded-full text-sm font-medium shadow
+                    hover:bg-yellow-300 transition">
+                            <i class=""></i> Edit
+                        </a>
                     </div>
                 </div>
             }

@@ -47,5 +47,28 @@ namespace ELS.Controllers
         }
 
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id) 
+        {
+            EditEquipmentViewModel e = await _equipmentService.GetEquipmetForEditByIdAsync(id);
+            if (e == null) 
+            {
+
+            }
+            e.EquipmentStatuses = _equipmentService.GetEuqipmentStatues();
+            e.Categories = await _categoryService.GetAllCategoriesAsync();
+            return View(e);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditEquipmentViewModel view) 
+        {
+             
+            await _equipmentService.EditEquipmentAsync(view);   
+            return RedirectToAction("All", "Equipment");
+        }
+
+
     }
 }

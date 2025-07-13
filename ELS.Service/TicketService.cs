@@ -16,7 +16,8 @@ namespace ELS.Service
         {
             this._dbContext = dbContext;
         }
-        public void Create()
+
+        public Task CreateTicket()
         {
             throw new NotImplementedException();
         }

@@ -1,0 +1,250 @@
+﻿@model EditEquipmentViewModel
+@{
+    ViewData["Title"] = "Edit Equipment";
+}
+
+<div class="flex-grow font-sans antialiased bg-gray-50 min-h-screen">
+
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+        <div class="pointer-events-none absolute -top-32 -left-32 w-96 h-96 bg-sky-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        <div class="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+
+        <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-10 lg:p-12">
+                <div class="flex items-center justify-center gap-4 mb-8">
+                    <i class="fas fa-box-open text-3xl text-sky-400"></i>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                        Edit <span class="text-sky-400">Equipment</span>
+                    </h1>
+                </div>
+                <p class="text-center text-gray-500 mb-10 text-base sm:text-lg">
+                    Попълнете всички задължителни полета по-долу, за да редактирате оборудването.
+                </p>
+
+                <form asp-action="Add" asp-controller="Equipment" method="post" enctype="multipart/form-data"
+                      class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-7">
+
+                  
+                    <div class="relative col-span-1 lg:col-span-2">
+                        <input asp-for="EquipmentName" placeholder=" " required
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition duration-150 outline-none" />
+                        <label asp-for="EquipmentName"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Име на оборудването
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-tag"></i>
+                        </span>
+                        <span asp-validation-for="EquipmentName" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                   
+                    <div class="relative">
+                        <select asp-for="CurrentStatus" required
+                                class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none">
+                            <option value="">-- Статус --</option>
+                            @foreach (var status in Model.EquipmentStatuses)
+                            {
+                                <option value="@status">@status.ToString()</option>
+                            }
+                        </select>
+                        <label asp-for="CurrentStatus"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Текущ статус
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </span>
+                        <span asp-validation-for="CurrentStatus" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    <!-- Asset Tag -->
+                    <div class="relative">
+                        <input asp-for="AssetTag" placeholder=" " required
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="AssetTag"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Asset Tag
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-barcode"></i>
+                        </span>
+                        <span asp-validation-for="AssetTag" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    
+                    <div class="relative">
+                        <input asp-for="SerialNumber" placeholder=" " required
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="SerialNumber"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Сериен номер
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-barcode"></i>
+                        </span>
+                        <span asp-validation-for="SerialNumber" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    <div class="relative">
+                        <input asp-for="Manufacturer" placeholder=" " required
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="Manufacturer"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Производител
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-industry"></i>
+                        </span>
+                        <span asp-validation-for="Manufacturer" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    
+                    <div class="relative">
+                        <input asp-for="Model" placeholder=" " required
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="Model"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Модел
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-cubes"></i>
+                        </span>
+                        <span asp-validation-for="Model" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                  
+                    <div class="relative">
+                        <input asp-for="EquipmentWarrantyMonths" type="number" placeholder=" " min="0"
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="EquipmentWarrantyMonths"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Гаранция (месеци)
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
+                        <span asp-validation-for="EquipmentWarrantyMonths" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    
+                    <div class="relative">
+                        <input asp-for="LifeSpanYears" type="number" placeholder=" " min="0"
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="LifeSpanYears"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Продължителност (год.)
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-hourglass-half"></i>
+                        </span>
+                        <span asp-validation-for="LifeSpanYears" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                   
+                    <div class="relative lg:col-span-2">
+                        <select asp-for="CategoryId" required
+                                class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none">
+                            <option value="">-- Категория --</option>
+                            @foreach (var cat in Model.Categories)
+                            {
+                                <option value="@cat.Id">@cat.Name</option>
+                            }
+                        </select>
+                        <label asp-for="CategoryId"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Категория
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-th-list"></i>
+                        </span>
+                        <span asp-validation-for="CategoryId" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    
+                    <div class="relative lg:col-span-2">
+                        <textarea asp-for="Description" placeholder=" " rows="3" required
+                                  class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none resize-none"></textarea>
+                        <label asp-for="Description"
+                               class="absolute left-4 top-4 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-1 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-1 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Описание
+                        </label>
+                        <span asp-validation-for="Description" class="block mt-1 text-red-600 text-xs"></span>
+                    </div>
+
+                    
+                    <div class="relative lg:col-span-2">
+                        <textarea asp-for="Notes" placeholder=" " rows="3"
+                                  class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none resize-none"></textarea>
+                        <label asp-for="Notes"
+                               class="absolute left-4 top-4 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-1 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-1 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Бележки
+                        </label>
+                    </div>
+
+                    
+                    <div class="relative lg:col-span-2">
+                        <input asp-for="AddedFrom" placeholder=" " required
+                               class="peer w-full px-4 py-4 border border-gray-300 rounded-xl bg-gray-50 focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition outline-none" />
+                        <label asp-for="AddedFrom"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 bg-white px-1 pointer-events-none transition-all duration-150
+                                  peer-focus:top-2 peer-focus:text-xs peer-focus:text-sky-400
+                                  peer-[.not-empty]:top-2 peer-[.not-empty]:text-xs peer-[.not-empty]:text-sky-400">
+                            Добавен от
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-300 pointer-events-none">
+                            <i class="fas fa-user-plus"></i>
+                        </span>
+                    </div>
+
+                   
+                    <div class="lg:col-span-2 flex justify-center mt-8">
+                        <button type="submit"
+                                class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-sky-400 text-white text-lg font-bold rounded-full shadow-xl hover:bg-sky-500 hover:scale-105 transition-transform duration-150 focus:outline-none focus:ring-4 focus:ring-sky-300">
+                            <i class="fas fa-save"></i> Запази промените
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script>
+    document.querySelectorAll('input, textarea, select').forEach((el) => {
+        function check() {
+            if (el.value) {
+                el.classList.add('not-empty');
+            } else {
+                el.classList.remove('not-empty');
+            }
+        }
+        el.addEventListener('input', check);
+        el.addEventListener('change', check);
+
+        check();
+    });
+</script>
