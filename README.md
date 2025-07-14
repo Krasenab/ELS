@@ -24,7 +24,7 @@ It demonstrates core backend skills—modeling relational data, role-based acces
 2. **Ticket Management**  
   - **Workers** submit tickets with title, description, priority and optional image.  
   - **Technicians** view, filter and claim open tickets.  
-  - Track ticket lifecycle (Open → Assigned → In Progress → Closed / Rejected) with timestamps.
+  - Track ticket lifecycle (Open → Assigned → In Progress → Closed ) with timestamps.
 
 3.**Reports**  
   After resolving an issue, a technician fills out a report including work details,
