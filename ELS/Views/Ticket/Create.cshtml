@@ -1,0 +1,120 @@
+﻿@* 
+@{
+    ViewData["Title"] = "Add Ticket";
+    Layout = "_Layout";
+}
+
+<main class="flex-grow bg-gray-50 font-sans antialiased py-8">
+
+    <!-- Hero Banner -->
+    <section class="bg-gradient-to-r from-sky-400 to-indigo-600 py-12 mb-8">
+        <div class="max-w-3xl mx-auto px-4 text-center text-white">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 flex items-center justify-center gap-3">
+                <i class="fas fa-ticket-alt"></i>
+                Докладвай тикет
+            </h1>
+            <p class="opacity-90">
+                Създай нов тикет за оборудване – бързо, лесно и прозрачно.
+            </p>
+        </div>
+    </section>
+
+    <!-- Ticket Form -->
+    <section class="max-w-3xl mx-auto px-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data"
+              class="bg-white rounded-3xl shadow-lg p-8 space-y-6">
+
+            <!-- Title -->
+            <div class="relative">
+                <input asp-for="Title" placeholder=" " required
+                       class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                      focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
+                <label asp-for="Title"
+                       class="absolute left-4 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                      peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400 transition-all pointer-events-none">
+                    Заглавие на тикета
+                </label>
+                <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                    <i class="fas fa-heading"></i>
+                </span>
+                <span asp-validation-for="Title" class="text-red-600 text-sm"></span>
+            </div>
+
+         
+            <div class="relative">
+                <select asp-for="EquipmentId" required
+                        class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                       focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition">
+                    <option value="">-- Избери оборудване --</option>
+                    @foreach (var eq in Model.AvailableEquipment)
+                    {
+                        <option value="@eq.Id">@eq.Name</option>
+                    }
+                </select>
+                <label asp-for="EquipmentId"
+                       class="absolute left-4 top-3 text-gray-500 peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                      transition-all pointer-events-none">
+                    Оборудване
+                </label>
+                <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                    <i class="fas fa-box-open"></i>
+                </span>
+                <span asp-validation-for="EquipmentId" class="text-red-600 text-sm"></span>
+            </div>
+
+       
+            <div class="relative">
+                <select asp-for="Priority" required
+                        class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                       focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition">
+                    <option value="">-- Приоритет --</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+                <label asp-for="Priority"
+                       class="absolute left-4 top-3 text-gray-500 peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                      transition-all pointer-events-none">
+                    Приоритет
+                </label>
+                <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                    <i class="fas fa-exclamation-circle"></i>
+                </span>
+                <span asp-validation-for="Priority" class="text-red-600 text-sm"></span>
+            </div>
+
+          
+            <div class="relative">
+                <textarea asp-for="Description" rows="4" placeholder=" "
+                          class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                         focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition"></textarea>
+                <label asp-for="Description"
+                       class="absolute left-4 top-4 text-gray-500 peer-focus:top-2 peer-focus:text-sm peer-focus:text-sky-400
+                      transition-all pointer-events-none">
+                    Описание на проблема
+                </label>
+                <span asp-validation-for="Description" class="text-red-600 text-sm"></span>
+            </div>
+
+           
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Прикачи файл</label>
+                <input asp-for="Attachment" type="file" accept="image/*"
+                       class="w-full text-gray-700 bg-gray-50 rounded-xl border border-gray-300
+                      file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-sky-100
+                      file:text-sky-700 hover:file:bg-sky-200 transition" />
+                <span asp-validation-for="Attachment" class="text-red-600 text-sm"></span>
+            </div>
+
+          
+            <button type="submit"
+                    class="w-full flex justify-center items-center gap-2 px-6 py-3 bg-sky-500 text-white font-semibold rounded-full shadow-md
+                     hover:bg-sky-600 hover:shadow-lg transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sky-300">
+                <i class="fas fa-plus-circle"></i>
+                Създай тикет
+            </button>
+        </form>
+    </section>
+
+</main>
+ *@

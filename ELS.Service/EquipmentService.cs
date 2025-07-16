@@ -95,7 +95,7 @@ namespace ELS.Service
             }).ToListAsync();
         }
 
-        public async Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm, string category)
+        public async Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm, string category,string status)
         {
             List<AllEquipmentViewModel> result = new List<AllEquipmentViewModel>();
 
@@ -115,7 +115,7 @@ namespace ELS.Service
 
             if (!string.IsNullOrEmpty(category)) 
             {
-                string searchedCategory = category.Trim() + "%";
+               
 
                 query = query.Where(ec =>
                     
@@ -124,6 +124,14 @@ namespace ELS.Service
                 );
             }
 
+            if (!string.IsNullOrEmpty(status) || !string.IsNullOrWhiteSpace(status)) 
+            {
+                
+                query = query.Where(es =>
+                    EF.Functions.Like(es.CurrentStatus,status)
+                    
+                );
+            }
 
             result = await query.Select(e => new AllEquipmentViewModel()
             {
@@ -173,7 +181,7 @@ namespace ELS.Service
             return equipment;
         }
 
-        public List<EquipmentStatus> GetEuqipmentStatues()
+        public List<EquipmentStatus> GetEuqipmentStatuses()
         {
             return Enum.GetValues(typeof(EquipmentStatus)).Cast<EquipmentStatus>().ToList();
         } 

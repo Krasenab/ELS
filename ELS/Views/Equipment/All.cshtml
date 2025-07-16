@@ -1,7 +1,6 @@
-﻿@model FilteredEquipmentViewModel;
+﻿@model FilteredEquipmentViewModel
 @{
     ViewData["Title"] = "All Equipment";
-
 }
 
 <div class="flex-grow font-sans antialiased bg-gray-50">
@@ -31,29 +30,43 @@
                 </div>
 
                 <!-- Category Filter -->
-                <div class="relative w-full sm:w-64">
+                <div class="relative w-20 sm:w-60">
                     <select id="categoryFilter"
                             class="w-full appearance-none pl-4 pr-10 py-3 rounded-full bg-white text-gray-800
-                   focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-shadow shadow-sm hover:shadow">
+                   focus:outline-none focus:ring-2 focus:ring-sky-400 transition-shadow shadow-sm hover:shadow">
                         <option value="">All Categories</option>
                         @foreach (var category in Model.Categories)
                         {
                             <option value="@category.Name">@category.Name</option>
                         }
                     </select>
-                    <!-- Custom arrow -->
-                   @*  <span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                    <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sky-400 text-xl">
                         <i class="fas fa-chevron-down"></i>
-                    </span> *@
+                    </span>
                 </div>
 
+                <!-- Status Filter (NEW!) -->
+                <div class="relative w-20 sm:w-60">
+                    <select id="statusFilter"
+                            class="w-full appearance-none pl-4 pr-10 py-3 rounded-full bg-white text-gray-800
+                   focus:outline-none focus:ring-2 focus:ring-sky-400 transition-shadow shadow-sm hover:shadow">
+                        <option value="">All Statuses</option>
+                        @foreach (var status in Model.Statuses) // това трябва да е списък със статуси в твоя ViewModel!
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+                    <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sky-400 text-xl">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Equipment Grid -->
-    <div id="allEquipmentPartial"  class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-       <partial name="_AllFilteredEquipmentPartial" model="Model.AllEquipment"/>
+ 
+    <div id="allEquipmentPartial" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <partial name="_AllFilteredEquipmentPartial" model="Model.AllEquipment" />
     </div>
 
 </div>
@@ -63,10 +76,12 @@
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 <script>
     AOS.init({ duration: 600, once: true });
-    function loadEquipment(search, category) {
+
+    function loadEquipment(search, category, status) {
         $.get("/Equipment/AllFiltered", {
             searchTerm: search,
-            category: category
+            category: category,
+            status: status
         }, function (html) {
             $("#allEquipmentPartial").html(html);
             AOS.refresh();
@@ -74,12 +89,15 @@
     }
 
     $(function () {
-        loadEquipment("@Model.SearchTerm", "@Model.CategoryFilter");
+        loadEquipment("@Model.SearchTerm", "@Model.CategoryFilter", "@Model.StatusFilter");
         $('#searchByText').on("input", function () {
-            loadEquipment(this.value, $('#categoryFilter').val());
+            loadEquipment(this.value, $('#categoryFilter').val(), $('#statusFilter').val());
         });
-         $('#categoryFilter').on("change", function () {
-            loadEquipment( $('#searchByText').val(),this.value);
+        $('#categoryFilter').on("change", function () {
+            loadEquipment($('#searchByText').val(), this.value, $('#statusFilter').val());
+        });
+        $('#statusFilter').on("change", function () {
+            loadEquipment($('#searchByText').val(), $('#categoryFilter').val(), this.value);
         });
     });
 </script>

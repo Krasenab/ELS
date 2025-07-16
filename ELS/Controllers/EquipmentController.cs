@@ -25,7 +25,7 @@ namespace ELS.Controllers
             AddEquipmentViewModel inputView = new AddEquipmentViewModel() 
             {
                Categories = allCategories,
-               EquipmentStatuses = _equipmentService.GetEuqipmentStatues()               
+               EquipmentStatuses = _equipmentService.GetEuqipmentStatuses()               
             };
             return View(inputView);
         }
@@ -45,17 +45,20 @@ namespace ELS.Controllers
             FilteredEquipmentViewModel model = new FilteredEquipmentViewModel()
             {
                 SearchTerm = "",
+                CategoryFilter = "",
                 StatusFilter = "",
                 AllEquipment = await _equipmentService.GetAllEquipmentAsync(),
-                Categories = await _categoryService.GetAllCategoriesAsync()
+                Categories = await _categoryService.GetAllCategoriesAsync(),
+                Statuses = _equipmentService.GetEuqipmentStatuses()
+                
             };
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllFiltered(string searchTerm, string category) 
+        public async Task<IActionResult> AllFiltered(string searchTerm, string category,string status) 
         {
-          var view = await _equipmentService.GetAllFilteredEquipmentAsync(searchTerm, category);
+          var view = await _equipmentService.GetAllFilteredEquipmentAsync(searchTerm, category,status);
             return PartialView("_AllFilteredEquipmentPartial", view);
         } 
         
@@ -69,7 +72,7 @@ namespace ELS.Controllers
             {
 
             }
-            e.EquipmentStatuses = _equipmentService.GetEuqipmentStatues();
+            e.EquipmentStatuses = _equipmentService.GetEuqipmentStatuses();
             e.Categories = await _categoryService.GetAllCategoriesAsync();
             return View(e);
         }

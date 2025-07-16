@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Els.ViewModels.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace ELS.ViewModels
 
         public string? StatusFilter { get; set; }
 
-       // public List<string> Status { get; set; }
+        public List<EquipmentStatus> Statuses { get; set; }
         public List<CategoryViewModel> Categories { get; set; }
         public List<AllEquipmentViewModel> AllEquipment { get; set; }
 
