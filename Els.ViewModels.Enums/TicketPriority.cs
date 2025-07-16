@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Els.ViewModels.Enums
 {
-    public enum TicketStatus
+     public enum TicketPriority
     {
-      Open,
-      InProgress,
-      Closed,
-      Cancelled
+            High,
+            Medium,
+            Low
     }
 }

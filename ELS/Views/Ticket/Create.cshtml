@@ -1,120 +1,130 @@
-﻿@* 
+﻿
+@model CreateTicketViewModel
 @{
-    ViewData["Title"] = "Add Ticket";
+    ViewData["Title"] = "Submit Ticket";
     Layout = "_Layout";
 }
 
 <main class="flex-grow bg-gray-50 font-sans antialiased py-8">
 
     <!-- Hero Banner -->
-    <section class="bg-gradient-to-r from-sky-400 to-indigo-600 py-12 mb-8">
-        <div class="max-w-3xl mx-auto px-4 text-center text-white">
-            <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 flex items-center justify-center gap-3">
+    <section class="relative bg-gradient-to-r from-sky-400 to-indigo-600 py-12 mb-6 overflow-hidden">
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-white rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>
+        <div class="absolute -bottom-16 -left-16 w-64 h-64 bg-white rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>
+        <div class="relative max-w-3xl mx-auto px-4 text-center text-white">
+            <div class="text-6xl mb-4 animate-bounce">
                 <i class="fas fa-ticket-alt"></i>
-                Докладвай тикет
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">
+                Submit a Ticket for<br />
+                <span class="underline decoration-white/70">@Model.EquipmentName</span>
             </h1>
             <p class="opacity-90">
-                Създай нов тикет за оборудване – бързо, лесно и прозрачно.
+                Quickly report an issue with your equipment.
             </p>
         </div>
     </section>
 
     <!-- Ticket Form -->
-    <section class="max-w-3xl mx-auto px-4">
-        <form asp-action="Create" method="post" enctype="multipart/form-data"
-              class="bg-white rounded-3xl shadow-lg p-8 space-y-6">
+    <section class="max-w-4xl mx-auto px-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <input type="hidden" asp-for="EquipmentId" />
 
-            <!-- Title -->
-            <div class="relative">
-                <input asp-for="Title" placeholder=" " required
-                       class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
-                      focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
-                <label asp-for="Title"
-                       class="absolute left-4 top-3 text-gray-500 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
-                      peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400 transition-all pointer-events-none">
-                    Заглавие на тикета
-                </label>
-                <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
-                    <i class="fas fa-heading"></i>
-                </span>
-                <span asp-validation-for="Title" class="text-red-600 text-sm"></span>
+            <!-- Fields Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+
+                <!-- Left Column -->
+                <div class="space-y-4">
+
+                    <!-- Applicant Name -->
+                    <div>
+                        <label for="ApplicantName" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-user mr-1 text-gray-500"></i> Your Name <span class="text-red-600">*</span>
+                        </label>
+                        <input id="ApplicantName" name="ApplicantName" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
+                          focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
+                               placeholder="John Doe" />
+                        <span asp-validation-for="ApplicantName" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <!-- Applicant Contacts -->
+                    <div>
+                        <label for="ApplicantContacts" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-phone-alt mr-1 text-gray-500"></i> Contact Info <span class="text-red-600">*</span>
+                        </label>
+                        <input id="ApplicantContacts" name="ApplicantContacts" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
+                          focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
+                               placeholder="email@example.com or +123456789" />
+                        <span asp-validation-for="ApplicantContacts" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <!-- Priority -->
+                    <div>
+                        <label for="Priority" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-flag mr-1 text-gray-500"></i> Priority <span class="text-red-600">*</span>
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <select id="Priority" name="Priority" required
+                                    class="block w-full appearance-none px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
+                             focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition">
+                                <option value="">Choose…</option>
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Priority" class="text-red-600 text-sm"></span>
+                    </div>
+
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-4">
+
+                    <!-- Description -->
+                    <div>
+                        <label for="Description" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-align-left mr-1 text-gray-500"></i> Description <span class="text-red-600">*</span>
+                        </label>
+                        <textarea id="Description" name="Description" rows="6" required
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
+                             focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
+                                  placeholder="Describe the issue in detail…"></textarea>
+                        <span asp-validation-for="Description" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <!-- Attachment -->
+                    <div>
+                        <label for="Attachment" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-paperclip mr-1 text-gray-500"></i> Attachment (optional)
+                        </label>
+                        <input id="Attachment" name="Attachment" type="file" accept="image/*"
+                               class="mt-1 block w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-300
+                          file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-sky-100
+                          file:text-sky-700 hover:file:bg-sky-200 transition" />
+                        <span asp-validation-for="Attachment" class="text-red-600 text-sm"></span>
+                    </div>
+
+                </div>
+
             </div>
 
-         
-            <div class="relative">
-                <select asp-for="EquipmentId" required
-                        class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
-                       focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition">
-                    <option value="">-- Избери оборудване --</option>
-                    @foreach (var eq in Model.AvailableEquipment)
-                    {
-                        <option value="@eq.Id">@eq.Name</option>
-                    }
-                </select>
-                <label asp-for="EquipmentId"
-                       class="absolute left-4 top-3 text-gray-500 peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
-                      transition-all pointer-events-none">
-                    Оборудване
-                </label>
-                <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
-                    <i class="fas fa-box-open"></i>
-                </span>
-                <span asp-validation-for="EquipmentId" class="text-red-600 text-sm"></span>
+            <!-- Submit Button -->
+            <div class="px-6 pb-6 bg-gray-50 text-right">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 px-8 py-3 bg-sky-500 text-white font-semibold rounded-full shadow
+                       hover:bg-sky-600 transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sky-300">
+                    <i class="fas fa-paper-plane"></i>
+                    Submit Ticket
+                </button>
             </div>
 
-       
-            <div class="relative">
-                <select asp-for="Priority" required
-                        class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
-                       focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition">
-                    <option value="">-- Приоритет --</option>
-                    <option>Low</option>
-                    <option>Medium</option>
-                    <option>High</option>
-                </select>
-                <label asp-for="Priority"
-                       class="absolute left-4 top-3 text-gray-500 peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
-                      transition-all pointer-events-none">
-                    Приоритет
-                </label>
-                <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
-                    <i class="fas fa-exclamation-circle"></i>
-                </span>
-                <span asp-validation-for="Priority" class="text-red-600 text-sm"></span>
-            </div>
-
-          
-            <div class="relative">
-                <textarea asp-for="Description" rows="4" placeholder=" "
-                          class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
-                         focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition"></textarea>
-                <label asp-for="Description"
-                       class="absolute left-4 top-4 text-gray-500 peer-focus:top-2 peer-focus:text-sm peer-focus:text-sky-400
-                      transition-all pointer-events-none">
-                    Описание на проблема
-                </label>
-                <span asp-validation-for="Description" class="text-red-600 text-sm"></span>
-            </div>
-
-           
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Прикачи файл</label>
-                <input asp-for="Attachment" type="file" accept="image/*"
-                       class="w-full text-gray-700 bg-gray-50 rounded-xl border border-gray-300
-                      file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-sky-100
-                      file:text-sky-700 hover:file:bg-sky-200 transition" />
-                <span asp-validation-for="Attachment" class="text-red-600 text-sm"></span>
-            </div>
-
-          
-            <button type="submit"
-                    class="w-full flex justify-center items-center gap-2 px-6 py-3 bg-sky-500 text-white font-semibold rounded-full shadow-md
-                     hover:bg-sky-600 hover:shadow-lg transition transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sky-300">
-                <i class="fas fa-plus-circle"></i>
-                Създай тикет
-            </button>
         </form>
     </section>
 
 </main>
- *@

@@ -1,4 +1,5 @@
-﻿using ELS.ViewModels;
+﻿using Els.ViewModels.Enums;
+using ELS.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ namespace ELS.Service.Interfaces
 {
     public interface ITicketService
     {
-        public Task CreateTicket(CreateTicketViewModel inputModel);
+        public Task CreateTicketAsync(CreateTicketViewModel inputModel);
+
+        public List<TicketPriority> GetPriorities();
 
     }
 }

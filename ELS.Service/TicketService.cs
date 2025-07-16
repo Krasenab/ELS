@@ -1,5 +1,8 @@
-﻿using ELS.Data;
+﻿using Els.ViewModels.Enums;
+using ELS.Data;
 using ELS.Service.Interfaces;
+using ELS.ViewModels;
+using ElsModels.SQL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System;
 using System.Collections.Generic;
@@ -17,9 +20,22 @@ namespace ELS.Service
             this._dbContext = dbContext;
         }
 
-        public Task CreateTicket()
+        public Task CreateTicketAsync(CreateTicketViewModel inputModel)
         {
+            Ticket ticket = new Ticket()
+            {
+                Title = inputModel.Title,
+                Priority = inputModel.Priority,
+                Description = inputModel.Description,
+                CreatedAt = DateTime.UtcNow.Date
+                
+            };
             throw new NotImplementedException();
+        }
+
+        public List<TicketPriority> GetPriorities()
+        {
+           return Enum.GetValues(typeof(TicketPriority)).Cast<TicketPriority>().ToList();
         }
     }
 }
