@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 using static Els.Constants.EntityValidationsConstants;
@@ -31,6 +29,10 @@ namespace ElsModels.SQL
         [MaxLength(TicketStatusMaxLength)]
         public string Status { get; set; }
 
+        public string? ApplicantName { get; set; }
+
+        public string? ApplicantContacts { get; set; }
+
         [Required]
         [ForeignKey(nameof(EquipmentId))]
         public Guid EquipmentId { get; set; }
@@ -43,13 +45,11 @@ namespace ElsModels.SQL
 
         [ForeignKey(nameof(TechnicianId))]
         public Guid? TechnicianId { get; set; }
-        public virtual Technician Technician { get; set; }
+        public virtual Technician? Technician { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public DateTime? AssignedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? ClosedAt { get; set; }
-
         public virtual List<Image> Images { get; set; }
 
     }
