@@ -58,6 +58,6 @@ It demonstrates core backend skills—modeling relational data, role-based acces
 5. **Admin**  
    - Category management (CRUD)  
    - User management (Workers & Technicians)  
-   - System settings and logs
+
 
 ---
