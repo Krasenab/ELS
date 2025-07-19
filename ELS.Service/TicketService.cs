@@ -4,6 +4,7 @@ using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,21 @@ namespace ELS.Service
                 
             };
             throw new NotImplementedException();
+        }
+
+        public async Task<List<AllTicketsViewModel>> GetAllTicketsAsync()
+        {
+            return await _dbContext.Tickets.Select(t => new AllTicketsViewModel
+            {
+                Title = t.Title,
+                EquipmentName = t.Equipment.EquipmentName,
+                CreatedOn = t.CreatedAt.ToString(),
+                Status = t.Status,
+                Prioroty = t.Priority,
+                Technician = t.Technician.AppUser.FirstName
+            }).ToListAsync();
+        
+        
         }
 
         public List<TicketPriority> GetPriorities()

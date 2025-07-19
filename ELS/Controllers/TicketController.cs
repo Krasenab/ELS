@@ -34,6 +34,12 @@ namespace ELS.Controllers
             return RedirectToAction("All","Ticket");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllTickets() 
+        {
+            AllTicketsViewModel viewModel = new AllTicketsViewModel();
+        }
+
 
     }
 }

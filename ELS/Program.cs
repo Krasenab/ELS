@@ -37,6 +37,7 @@ namespace ELS
             builder.Services.AddScoped<IAppUserService, AppUserService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
           
             
 
