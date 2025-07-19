@@ -21,7 +21,7 @@ namespace ELS.Service
             this._dbContext = dbContext;
         }
 
-        public Task CreateTicketAsync(CreateTicketViewModel inputModel)
+        public async Task CreateTicketAsync(CreateTicketViewModel inputModel)
         {
             Ticket ticket = new Ticket()
             {
@@ -31,7 +31,10 @@ namespace ELS.Service
                 CreatedAt = DateTime.UtcNow.Date
                 
             };
-            throw new NotImplementedException();
+         
+           await _dbContext.Tickets.AddAsync(ticket);
+           await _dbContext.SaveChangesAsync();
+        
         }
 
         public async Task<List<AllTicketsViewModel>> GetAllTicketsAsync()
@@ -52,6 +55,11 @@ namespace ELS.Service
         public List<TicketPriority> GetPriorities()
         {
            return Enum.GetValues(typeof(TicketPriority)).Cast<TicketPriority>().ToList();
+        }
+
+        public List<TicketStatus> GetStatuses()
+        {
+            return Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList();
         }
     }
 }

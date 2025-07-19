@@ -11,9 +11,10 @@ namespace ELS.Service.Interfaces
     public interface ITicketService
     {
         public Task CreateTicketAsync(CreateTicketViewModel inputModel);
+        public Task<List<AllTicketsViewModel>> GetAllTicketsAsync();
         public List<TicketPriority> GetPriorities();
-        public List<AllTicketsViewModel> GetAllTicketsAsync();
-
+     
+        public List<TicketStatus> GetStatuses();    
 
     }
 }

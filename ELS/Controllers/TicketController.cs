@@ -37,7 +37,13 @@ namespace ELS.Controllers
         [HttpGet]
         public async Task<IActionResult> AllTickets() 
         {
-            AllTicketsViewModel viewModel = new AllTicketsViewModel();
+            FilteredTicketsViewModel viewModel = new FilteredTicketsViewModel()
+            {
+                AllTickets = await _ticketService.GetAllTicketsAsync(),
+                Priorities = _ticketService.GetPriorities(),               
+            };
+
+            return View(viewModel);
         }
 
 
