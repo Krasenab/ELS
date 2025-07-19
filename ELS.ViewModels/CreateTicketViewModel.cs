@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Els.ViewModels.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace ELS.ViewModels
         [Required]
         public string Priority { get; set; }
 
-        public List<string> Priorities { get; set; }
+        public List<TicketPriority> Priorities { get; set; }
 
         public string EquipmentId { get; set; }
         public string EquipmentName { get; set; }

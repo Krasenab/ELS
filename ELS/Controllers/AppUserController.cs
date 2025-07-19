@@ -108,7 +108,7 @@ namespace ELS.Controllers
                 this.TempData["ErrorMessage"] = "There was error while logging you ";
                 return View(model);
             }
-            this.TempData["InfoMessage"] = "Welcome in EquipLog";
+            this.TempData["InfoMessage"] = "Welcome back";
 
             return RedirectToAction("Index", "Home");
 

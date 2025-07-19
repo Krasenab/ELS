@@ -10,12 +10,19 @@
 
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+   
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/toastr.css"  />
+
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-
+    <partial name="_NotificationPartial"></partial>
     <header>
         <nav class="bg-gray-800 shadow-md">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -25,14 +32,14 @@
                        class="text-xl font-semibold text-white hover:text-sky-400 transition-colors duration-200">
                         EquipLogSystem
                     </a>
-                    <!-- Desktop menu -->
+               
                     <div class="hidden md:flex space-x-6">
                         <a asp-area="" asp-controller="Home" asp-action="Index"
-                           class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                           class="px-3 py-4 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
                             Home
                         </a>
                         <a asp-area="" asp-controller="Home" asp-action="Privacy"
-                           class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                           class="px-3 py-4 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
                             Privacy
                         </a>
                         <div class="border-l border-gray-600 pl-6">
@@ -75,7 +82,7 @@
 
     <footer class="bg-gray-900 text-gray-400 mt-auto">
         <div class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Brand -->
+
             <div>
                 <a asp-area="" asp-controller="Home" asp-action="Index"
                    class="text-xl font-semibold text-white hover:text-sky-400 transition-colors duration-200">
@@ -85,7 +92,7 @@
                     Управление на оборудването с лекота и сигурност.
                 </p>
             </div>
-            <!-- Links -->
+
             <div>
                 <h3 class="font-semibold mb-3 text-white">Quick Links</h3>
                 <ul class="space-y-2">
@@ -103,7 +110,7 @@
                     </li>
                 </ul>
             </div>
-            <!-- Copyright -->
+
             <div class="md:text-right text-sm">
                 <p>&copy; 2025 EquipLogSystem</p>
                 <p class="mt-2">
@@ -114,18 +121,22 @@
                 </p>
             </div>
         </div>
+       
     </footer>
-
+    
     <!-- jQuery и site.js за AJAX или бъдеща логика -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/toastr@2.1.4/build/toastr.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
-        // Toggle mobile menu
+      
         document.getElementById('mobile-menu-button').addEventListener('click', function () {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
     </script>
+ 
 </body>
 </html>
