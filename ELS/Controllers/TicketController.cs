@@ -39,11 +39,21 @@ namespace ELS.Controllers
         {
             FilteredTicketsViewModel viewModel = new FilteredTicketsViewModel()
             {
+                SearchTerm = "",
+                Status = "",
+                Priority = "",
                 AllTickets = await _ticketService.GetAllTicketsAsync(),
-                Priorities = _ticketService.GetPriorities(),               
+                Priorities = _ticketService.GetPriorities(),
+                Statuses = _ticketService.GetStatuses(),
             };
 
             return View(viewModel);
+        }
+        [HttpGet]
+        public async Task<IActionResult> AllFilteredTickets(string searchTerm,string status,string priority) 
+        {
+            List<AllTicketsViewModel> filteredView = await _ticketService.FilteredAllTicketsAsync(searchTerm, status, priority);
+            return PartialView(filteredView);
         }
 
 

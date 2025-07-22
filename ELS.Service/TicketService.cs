@@ -37,6 +37,47 @@ namespace ELS.Service
         
         }
 
+        public async Task<List<AllTicketsViewModel>> FilteredAllTicketsAsync(string searchTerm, string status,string priority)
+        {
+            var ticketsQuery = _dbContext.Tickets.AsQueryable();
+            List<AllTicketsViewModel> allTickets = new List<AllTicketsViewModel>();
+            if (!String.IsNullOrEmpty(searchTerm) || !string.IsNullOrWhiteSpace(searchTerm)) 
+            {
+               ticketsQuery.Where(t =>
+                
+                   EF.Functions.Like(t.Title,searchTerm)||
+                   EF.Functions.Like(t.Technician.AppUser.FirstName,searchTerm)
+                   
+                );
+            }
+
+            if (!String.IsNullOrEmpty(status) || !String.IsNullOrWhiteSpace(status)) 
+            {
+                ticketsQuery.Where(t =>
+                    EF.Functions.Like(t.Status,status)
+
+                );
+            }
+            if (!String.IsNullOrEmpty(priority) || !String.IsNullOrWhiteSpace(priority)) 
+            {
+                ticketsQuery.Where( t=> 
+                 EF.Functions.Like(t.Priority,priority)
+                    );
+            }
+
+            allTickets = await ticketsQuery.Select(t=> new AllTicketsViewModel() 
+            {
+                Title = t.Title,
+                CreatedOn = t.CreatedAt.ToString(),
+                Technician = t.Technician.AppUser.FirstName,
+                Prioroty = t.Priority,
+                Status = t.Status,
+                EquipmentName  = t.Equipment.EquipmentName
+
+            }).ToListAsync();
+           return allTickets;
+        }
+
         public async Task<List<AllTicketsViewModel>> GetAllTicketsAsync()
         {
             return await _dbContext.Tickets.Select(t => new AllTicketsViewModel

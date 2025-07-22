@@ -1,4 +1,5 @@
-﻿<main class="flex-grow bg-gray-50 font-sans antialiased py-12">
+﻿@model FilteredTicketsViewModel;
+<main class="flex-grow bg-gray-50 font-sans antialiased py-12">
 
     <!-- Hero + Search -->
     <section class="bg-gradient-to-r from-indigo-600 to-sky-500 py-10 mb-8">
@@ -23,9 +24,27 @@
                     <select class="w-full pl-4 pr-10 py-3 rounded-full bg-white text-gray-900 placeholder-gray-400
                          focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition">
                         <option value="">All Statuses</option>
-                        <option value="Open">Open</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Closed">Closed</option>
+                        @foreach(var status in @Model.Statuses)
+                        {
+                            <option value="@status">@status</option>
+                        }
+                        
+                        
+                    </select>
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                </div>
+                <div class="relative w-full sm:w-48">
+                    <select class="w-full pl-4 pr-10 py-3 rounded-full bg-white text-gray-900 placeholder-gray-400
+                         focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition">
+                        <option value="">All Statuses</option>
+                        @foreach (var pr in @Model.Priorities)
+                        {
+                            <option value="@pr">@pr</option>
+                        }
+
+
                     </select>
                     <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
                         <i class="fas fa-chevron-down"></i>
@@ -37,7 +56,7 @@
 
     <!-- Tickets Grid -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <partial name="_AllFilteredTicketsPartial"></partial>
+        <partial name="_AllFilteredTicketsPartial" model="@Model.AllTickets"></partial>
     </section>
 
 </main>
