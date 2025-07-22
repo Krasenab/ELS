@@ -41,6 +41,7 @@ namespace ELS.Service
         {
             return await _dbContext.Tickets.Select(t => new AllTicketsViewModel
             {
+                Id = t.TicketId.ToString(),
                 Title = t.Title,
                 EquipmentName = t.Equipment.EquipmentName,
                 CreatedOn = t.CreatedAt.ToString(),
@@ -61,5 +62,7 @@ namespace ELS.Service
         {
             return Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList();
         }
+
+
     }
 }

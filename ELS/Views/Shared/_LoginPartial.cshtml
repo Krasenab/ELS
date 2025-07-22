@@ -3,39 +3,31 @@
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 
-<ul class="flex justify-between items-center py-2">
+<div class="flex items-center space-x-4">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li>
-            <a asp-area="Identity" asp-page="/Account/Manage/Index"
-               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
-                Hello @User.Identity?.Name!
-            </a>
-        </li>
-        <li>
-            <form asp-area="Identity" asp-page="/Account/Logout"
-                  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
-                  class="inline">
-                <button type="submit"
-                        class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200 focus:outline-none">
-                    Logout
-                </button>
-            </form>
-        </li>
+        <a asp-area="Identity" asp-page="/Account/Manage/Index"
+           class="text-gray-200 hover:text-sky-400 text-base px-3 py-2 rounded-md text-gray-200 font-medium transition">
+            <i class="fas fa-user-circle mr-1"></i>Hello @User.Identity?.Name
+        </a>
+        <form asp-area="Identity" asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+              class="inline">
+            <button type="submit"
+                    class="text-gray-200 hover:text-sky-400 text-base px-3 py-2 rounded-md text-gray-200 font-medium transition">
+                <i class="fas fa-sign-out-alt mr-1"></i>Logout
+            </button>
+        </form>
     }
     else
     {
-        <li>
-            <a asp-controller="AppUser" asp-action="Register"
-               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
-                Register
-            </a>
-        </li>
-        <li>
-            <a asp-area=""  asp-controller="AppUser" asp-action="Login"
-               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
-                Login
-            </a>
-        </li>
+        <a asp-controller="AppUser" asp-action="Register"
+           class="text-gray-200 hover:text-sky-400 px-3 py-2 rounded-md text-base font-medium transition">
+            <i class="fas fa-user-plus mr-1"></i>Register
+        </a>
+        <a asp-controller="AppUser" asp-action="Login"
+           class="text-gray-200 hover:text-sky-400 px-3 py-2 rounded-md text-base font-medium transition">
+            <i class="fas fa-sign-in-alt mr-1"></i>Login
+        </a>
     }
-</ul>
+</div>
