@@ -15,8 +15,5 @@ namespace ELS.Service.Interfaces
         public Task<List<AllTicketsViewModel>> FilteredAllTicketsAsync(string searchTerm, string status,string priority);
         public List<TicketPriority> GetPriorities();     
         public List<TicketStatus> GetStatuses();    
-
-
-
     }
 }

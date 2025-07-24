@@ -29,11 +29,21 @@
                 </div>
             </div>
 
-            <!-- Illustration card -->
-            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-2xl flex-1 flex justify-center">
-                <img src="https://cdn.jsdelivr.net/gh/undraw/undraw@master/undraw_server_status_u0bn.svg"
-                     alt="3D Servers Illustration"
-                     class="w-full max-w-xs sm:max-w-sm md:max-w-md hover:scale-105 transition-transform duration-500 object-contain" />
+            <!-- Мини-dashboard: обобщена графика -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-2xl flex-1 flex justify-center items-center">
+                <div class="w-full max-w-xs bg-white rounded-xl flex flex-col items-center">
+                    <svg width="180" height="64" viewBox="0 0 180 64" fill="none" class="mb-4">
+                        <rect x="0" y="0" width="180" height="64" rx="16" fill="#f1f5f9" />
+                        <polyline points="10,54 40,30 70,44 100,22 130,35 160,10"
+                                  fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" />
+                        <circle cx="160" cy="10" r="5" fill="#0ea5e9" />
+                        <circle cx="100" cy="22" r="5" fill="#38bdf8" />
+                    </svg>
+                    <div class="flex flex-col items-center">
+                        <span class="text-2xl font-bold text-sky-600">92%</span>
+                        <span class="text-xs text-gray-500">Overall Success Rate</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -50,16 +60,27 @@
                 <p class="text-gray-700 max-w-md">
                     В реално време виждате къде се намират вашите тикети – от отваряне до приключване. Ясни графики и нотификации.
                 </p>
-                <a asp-area="" asp-controller="Tickets" asp-action="Index"
+                <a asp-area="" asp-controller="Tickets" asp-action="I"
                    class="inline-flex items-center px-5 py-2 bg-gray-800 text-white text-base font-medium rounded-full shadow
                   hover:bg-gray-900 transform hover:-translate-y-0.5 hover:text-sky-400 transition focus:outline-none focus:ring-4 focus:ring-gray-500">
                     <i class="fas fa-eye mr-2"></i> Преглед на тикети
                 </a>
             </div>
-            <div class="md:w-1/2">
-                <img src="https://cdn.jsdelivr.net/gh/undraw/undraw@master/undraw_data_trends_re_2cdy.svg"
-                     alt="Ticket Status Dashboard"
-                     class="w-full h-auto rounded-xl shadow-md object-contain max-h-64 sm:max-h-80" />
+            <div class="md:w-1/2 flex justify-center">
+                <div class="w-full max-w-xs bg-white rounded-xl flex flex-col items-center shadow p-4">
+                    <svg width="180" height="64" viewBox="0 0 180 64" fill="none" class="mb-4">
+                        <rect x="0" y="0" width="180" height="64" rx="16" fill="#f8fafc" />
+                        <rect x="30" y="24" width="16" height="30" rx="4" fill="#0ea5e9" />
+                        <rect x="56" y="18" width="16" height="36" rx="4" fill="#38bdf8" />
+                        <rect x="82" y="34" width="16" height="20" rx="4" fill="#0284c7" />
+                        <rect x="108" y="8" width="16" height="46" rx="4" fill="#0369a1" />
+                        <rect x="134" y="42" width="16" height="12" rx="4" fill="#7dd3fc" />
+                    </svg>
+                    <div class="flex flex-col items-center">
+                        <span class="text-2xl font-bold text-sky-600">241</span>
+                        <span class="text-xs text-gray-500">Tickets Monitored</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -68,10 +89,18 @@
     <section class="relative bg-gray-50 py-12 sm:py-16">
         <div class="absolute -bottom-16 left-4 w-48 h-48 bg-gray-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12">
-            <div class="md:w-1/2">
-                <img src="https://cdn.jsdelivr.net/gh/undraw/undraw@master/undraw_online_resume_re_sv85.svg"
-                     alt="Equipment Management Illustration"
-                     class="w-full h-auto rounded-xl shadow-md object-contain max-h-64 sm:max-h-80" />
+            <div class="md:w-1/2 flex justify-center">
+                <div class="w-full max-w-xs bg-white rounded-xl flex flex-col items-center shadow p-4">
+                    <svg width="64" height="64" viewBox="0 0 64 64" class="mb-4">
+                        <circle cx="32" cy="32" r="28" fill="#e0f2fe" />
+                        <path d="M32 32 L32 4 A28 28 0 1 1 13.8 50.2 Z" fill="#0ea5e9" />
+                        <path d="M32 32 L13.8 50.2 A28 28 0 0 1 32 60 Z" fill="#38bdf8" />
+                    </svg>
+                    <div class="flex flex-col items-center">
+                        <span class="text-2xl font-bold text-sky-600">320</span>
+                        <span class="text-xs text-gray-500">Assets Tracked</span>
+                    </div>
+                </div>
             </div>
             <div class="md:w-1/2 space-y-4">
                 <div class="inline-flex items-center text-sky-600 text-3xl">
@@ -108,10 +137,20 @@
                     <i class="fas fa-chart-pie mr-2"></i> Виж отчети
                 </a>
             </div>
-            <div class="md:w-1/2">
-                <img src="https://cdn.jsdelivr.net/gh/undraw/undraw@master/undraw_statistics_re_w6ay.svg"
-                     alt="Reports Illustration"
-                     class="w-full h-auto rounded-xl shadow-md object-contain max-h-64 sm:max-h-80" />
+            <div class="md:w-1/2 flex justify-center">
+                <div class="w-full max-w-xs bg-white rounded-xl flex flex-col items-center shadow p-4">
+                    <svg width="180" height="64" viewBox="0 0 180 64" fill="none" class="mb-4">
+                        <rect x="0" y="0" width="180" height="64" rx="16" fill="#f1f5f9" />
+                        <polyline points="10,54 40,40 70,44 100,32 130,22 160,14"
+                                  fill="none" stroke="#0ea5e9" stroke-width="3" stroke-linecap="round" />
+                        <circle cx="160" cy="14" r="5" fill="#0ea5e9" />
+                        <circle cx="100" cy="32" r="5" fill="#38bdf8" />
+                    </svg>
+                    <div class="flex flex-col items-center">
+                        <span class="text-2xl font-bold text-sky-600">74%</span>
+                        <span class="text-xs text-gray-500">Reports Coverage</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
