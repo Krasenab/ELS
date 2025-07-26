@@ -24,8 +24,10 @@ namespace ELS.ViewModels
         public string EquipmentId { get; set; }
         public string EquipmentName { get; set; }
         public string? ApplicantName { get; set; }
+        public string ApplicantId { get; set; }
         public string? ApplicantContacts { get; set; }
         public string Status { get; set; }
+        public List<TicketStatus> Statuses { get; set; }
 
         [Required]
         public string Description { get; set; }

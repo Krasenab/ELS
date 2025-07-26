@@ -28,8 +28,11 @@ namespace ELS.Service
                 Title = inputModel.Title,
                 Priority = inputModel.Priority,
                 Description = inputModel.Description,
-                CreatedAt = DateTime.UtcNow.Date
-                
+                CreatedAt = DateTime.UtcNow.Date,
+                Status = inputModel.Status,
+                AppUserId = Guid.Parse(inputModel.ApplicantId),
+                EquipmentId = Guid.Parse(inputModel.EquipmentId)
+
             };
          
            await _dbContext.Tickets.AddAsync(ticket);
@@ -70,7 +73,7 @@ namespace ELS.Service
                 Title = t.Title,
                 CreatedOn = t.CreatedAt.ToString(),
                 Technician = t.Technician.AppUser.FirstName,
-                Prioroty = t.Priority,
+                Priority = t.Priority,
                 Status = t.Status,
                 EquipmentName  = t.Equipment.EquipmentName
 
@@ -87,7 +90,7 @@ namespace ELS.Service
                 EquipmentName = t.Equipment.EquipmentName,
                 CreatedOn = t.CreatedAt.ToString(),
                 Status = t.Status,
-                Prioroty = t.Priority,
+                Priority = t.Priority,
                 Technician = t.Technician.AppUser.FirstName
             }).ToListAsync();
         
@@ -104,6 +107,23 @@ namespace ELS.Service
             return Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>().ToList();
         }
 
+        public async Task<TicketDetailsViewModel> GetTicketDetailsAsync(string ticketId)
+        {
+            TicketDetailsViewModel? ticket = await _dbContext.Tickets.Where(tid=>tid.TicketId.ToString() == ticketId)
+                .Select(t=>new TicketDetailsViewModel() 
+                {
+                    Id = t.TicketId.ToString(),
+                    Title = t.Title,
+                    EquipmentName = t.Equipment.EquipmentName,
+                    Description = t.Description,
+                    Technician = t.Technician.AppUser.FirstName ?? "Not Accepted Ticket",
+                    CreatedAt = t.CreatedAt.ToString("dd-MM-yyyy"),
+                    Priority = t.Priority,
+                    Status = t.Status
 
+                })
+                .FirstOrDefaultAsync();
+            return ticket;
+        }
     }
 }

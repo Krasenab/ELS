@@ -1,0 +1,155 @@
+﻿@model TicketDetailsViewModel;
+<div class="flex-grow font-sans antialiased bg-gray-50">
+
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+        <!-- Decorative blobs -->
+        <div class="absolute -top-32 -left-32 w-80 h-80 bg-sky-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
+        <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10">
+
+                <!-- Header -->
+                <div class="flex items-center justify-center mb-8 space-x-3">
+                    <i class="fas fa-ticket-alt text-3xl text-sky-400"></i>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">
+                        Детайли за <span class="text-sky-400">тикет</span>
+                    </h1>
+                    <i class="fas fa-info-circle text-3xl text-sky-400"></i>
+                </div>
+
+                <!-- Details Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 uppercase">Оборудване</p>
+                        <p class="text-gray-700">@Model.EquipmentName</p>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 uppercase">Приоритет</p>
+                        <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full @(
+                              Model.Priority == "High" ? "bg-red-100 text-red-800" :
+                              Model.Priority == "Medium" ? "bg-yellow-100 text-yellow-800" :
+                                                           "bg-green-100 text-green-800")">
+                            @Model.Priority
+                        </span>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 uppercase">Статус</p>
+                        <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full @(
+                                              Model.Status == "Closed" ? "bg-red-100 text-red-800" :
+                                              Model.Status == "In Progress" ? "bg-yellow-100 text-yellow-800" :
+                                                                               "bg-green-100 text-green-800")">
+                            @Model.Status
+                        </span>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="text-sm font-medium text-gray-500 uppercase">Създадено</p>
+                        <p class="text-gray-700">@Model.CreatedAt</p>
+                    </div>
+                    <div class="md:col-span-2 space-y-1">
+                        <p class="text-sm font-medium text-gray-500 uppercase">Описание</p>
+                        <p class="text-gray-700">@Model.Description</p>
+                    </div>
+                
+                        <div class="md:col-span-2 space-y-1">
+                            <p class="text-sm font-medium text-gray-500 uppercase">Техник</p>
+                            <p class="text-gray-700">@Model.Technician</p>
+                        </div>
+                    
+                </div>
+
+            
+                <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-4">
+  
+                    <div class="relative">
+                        <button id="statusBtn"
+                                class="inline-flex items-center px-6 py-2 bg-indigo-600 text-white rounded-full shadow-lg
+                           hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition">
+                            <i class="fas fa-exchange-alt mr-2"></i> Смени статус
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                        <ul id="statusMenu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl ring-1 ring-black ring-opacity-5 z-10">
+                            @foreach (var status in Model.Statuses)
+                            {
+                                <li>
+                                    <button class="status-change-btn w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
+                                            data-ticket-id="@Model.Id" data-status="@status">
+                                        @status
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <!-- Take Ticket -->
+                  
+                        <form asp-action="AssignToMe" method="post" class="inline">
+                            <input type="hidden" name="ticketId" value="@Model.Id" />
+                            <button type="submit"
+                                    class="inline-flex items-center px-6 py-2 bg-sky-400 text-white rounded-full shadow-lg
+                                 hover:bg-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-300 transition">
+                                <i class="fas fa-user-check mr-2"></i> Вземи тикета
+                            </button>
+                        </form>
+                    
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script>
+        $('#statusBtn').on('click',function()
+        {
+            $('#statusMenu').toggleClass('hidden');
+        });
+          // AJAX логика
+        $('.status-change-btn').on('click', function (e) {
+            e.preventDefault();
+
+            var ticketId = $(this).data('ticket-id');
+            var newStatus = $(this).data('status');
+
+            $.ajax({
+                url: '/YourController/ChangeStatus', // смени с реален път
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    ticketId: ticketId,
+                    newStatus: newStatus
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        // Смени текста и стила на статуса
+                        var $statusSpan = $('span.inline-flex:contains("'+ response.newStatus +'")');
+                        var $allStatusSpans = $('span.inline-flex');
+
+                        $allStatusSpans.text(response.newStatus);
+                        $allStatusSpans
+                            .removeClass()
+                            .addClass("inline-flex px-3 py-1 text-xs font-semibold rounded-full");
+
+                        if (response.newStatus === "Closed") {
+                            $allStatusSpans.addClass("bg-red-100 text-red-800");
+                        } else if (response.newStatus === "In Progress") {
+                            $allStatusSpans.addClass("bg-yellow-100 text-yellow-800");
+                        } else {
+                            $allStatusSpans.addClass("bg-green-100 text-green-800");
+                        }
+
+                        $('#statusMenu').addClass('hidden');
+                    }
+                },
+                error: function () {
+                    alert('Възникна грешка при смяна на статуса.');
+                }
+            });
+        });
+
+
+
+    </script>
+}

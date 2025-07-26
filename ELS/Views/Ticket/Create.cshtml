@@ -1,5 +1,6 @@
 ﻿
 @model CreateTicketViewModel
+
 @{
     ViewData["Title"] = "Submit Ticket";
     Layout = "_Layout";
@@ -7,7 +8,7 @@
 
 <main class="flex-grow bg-gray-50 font-sans antialiased py-8">
 
-    <!-- Hero Banner -->
+  
     <section class="relative bg-gradient-to-r from-sky-400 to-indigo-600 py-12 mb-6 overflow-hidden">
         <div class="absolute -top-16 -right-16 w-48 h-48 bg-white rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>
         <div class="absolute -bottom-16 -left-16 w-64 h-64 bg-white rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>
@@ -25,35 +26,44 @@
         </div>
     </section>
 
-    <!-- Ticket Form -->
+    
     <section class="max-w-4xl mx-auto px-4">
         <form asp-action="Create" method="post" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-lg overflow-hidden">
             <input type="hidden" asp-for="EquipmentId" />
 
-            <!-- Fields Grid -->
+    
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
 
-                <!-- Left Column -->
+              
                 <div class="space-y-4">
-
-                    <!-- Applicant Name -->
                     <div>
-                        <label for="ApplicantName" class="block text-sm font-medium text-gray-700">
+                        <label asp-for="Title" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-user mr-1 text-gray-500"></i> Title <span class="text-red-600">*</span>
+                        </label>
+                        <input asp-for="Title" name="Title" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
+                          focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
+                               placeholder="John Doe" />
+                        <span asp-validation-for="Title" class="text-red-600 text-sm"></span>
+                    </div>
+                
+                    <div>
+                        <label asp-for="ApplicantName" class="block text-sm font-medium text-gray-700">
                             <i class="fas fa-user mr-1 text-gray-500"></i> Your Name <span class="text-red-600">*</span>
                         </label>
-                        <input id="ApplicantName" name="ApplicantName" required
+                        <input asp-for="ApplicantName" name="ApplicantName" required
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
                           focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
                                placeholder="John Doe" />
                         <span asp-validation-for="ApplicantName" class="text-red-600 text-sm"></span>
                     </div>
 
-                    <!-- Applicant Contacts -->
+                
                     <div>
-                        <label for="ApplicantContacts" class="block text-sm font-medium text-gray-700">
+                        <label asp-for="ApplicantContacts" class="block text-sm font-medium text-gray-700">
                             <i class="fas fa-phone-alt mr-1 text-gray-500"></i> Contact Info <span class="text-red-600">*</span>
                         </label>
-                        <input id="ApplicantContacts" name="ApplicantContacts" required
+                        <input asp-for ="ApplicantContacts" name="ApplicantContacts" required
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
                           focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
                                placeholder="email@example.com or +123456789" />
@@ -62,23 +72,42 @@
 
                     <!-- Priority -->
                     <div>
-                        <label for="Priority" class="block text-sm font-medium text-gray-700">
+                        <label asp-for="Priority" class="block text-sm font-medium text-gray-700">
                             <i class="fas fa-flag mr-1 text-gray-500"></i> Priority <span class="text-red-600">*</span>
                         </label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <select id="Priority" name="Priority" required
+                            <select asp-for ="Priority" name="Priority" required
                                     class="block w-full appearance-none px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
                              focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition">
                                 <option value="">Choose…</option>
-                                <option>Low</option>
-                                <option>Medium</option>
-                                <option>High</option>
+                                @foreach (var item in Model.Priorities)
+                                {
+                                         <option value="@item">@item</option>
+                                }
+                               
                             </select>
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                                 <i class="fas fa-chevron-down"></i>
                             </div>
                         </div>
                         <span asp-validation-for="Priority" class="text-red-600 text-sm"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Status" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-flag mr-1 text-gray-500"></i> Status <span class="text-red-600">*</span>
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <select asp-for="Status" name="Status" required
+                                    class="block w-full appearance-none px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
+                             focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition">
+                                <option value="@Model.Statuses.First()">Open</option>
+
+                            </select>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Status" class="text-red-600 text-sm"></span>
                     </div>
 
                 </div>
@@ -88,10 +117,10 @@
 
                     <!-- Description -->
                     <div>
-                        <label for="Description" class="block text-sm font-medium text-gray-700">
+                        <label asp-for="Description" class="block text-sm font-medium text-gray-700">
                             <i class="fas fa-align-left mr-1 text-gray-500"></i> Description <span class="text-red-600">*</span>
                         </label>
-                        <textarea id="Description" name="Description" rows="6" required
+                        <textarea asp-for="Description" name="Description" rows="6" required
                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50
                              focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition"
                                   placeholder="Describe the issue in detail…"></textarea>

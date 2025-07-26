@@ -1,17 +1,17 @@
 ﻿using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-
+using static ELS.Infrastrucure.ClaimsPrincipalExtensions;
 namespace ELS.Controllers
 {
     public class TicketController : Controller
     {
         private ITicketService _ticketService;
-        private IEquipmentService _equipmentService;
-        public TicketController(ITicketService ticketService,IEquipmentService equipmentService)
+        private IAppUserService _appUserService;
+        public TicketController(ITicketService ticketService,IAppUserService appUserService)
         {
             this._ticketService = ticketService;
-            this._equipmentService = equipmentService;
+            this._appUserService = appUserService;
         }
         [HttpGet]
         public IActionResult Create(string equipmentId)
@@ -21,6 +21,7 @@ namespace ELS.Controllers
             {
                 Priorities = _ticketService.GetPriorities(),
                 EquipmentId = equipmentId,
+                Statuses = _ticketService.GetStatuses()
                 
             };
             
@@ -29,6 +30,8 @@ namespace ELS.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateTicketViewModel inputViewModel) 
         {
+            inputViewModel.ApplicantId = getCurrentUserId(this.User);
+            
             await _ticketService.CreateTicketAsync(inputViewModel);
             TempData["SuccessMessage"] = "Ticket was been created";
             return RedirectToAction("All","Ticket");
@@ -55,6 +58,17 @@ namespace ELS.Controllers
             List<AllTicketsViewModel> filteredView = await _ticketService.FilteredAllTicketsAsync(searchTerm, status, priority);
             return PartialView(filteredView);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> TicketDetails(string ticketId) 
+        {
+            TicketDetailsViewModel viewModel = await _ticketService.GetTicketDetailsAsync(ticketId);
+            viewModel.Statuses = _ticketService.GetStatuses();
+
+            return View(viewModel);
+        }
+
+        
 
 
     }

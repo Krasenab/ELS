@@ -9,7 +9,7 @@
         <div data-status="@(item.CurrentStatus?.ToLower().Replace(' ', '-'))"
              class="relative bg-white bg-opacity-70 backdrop-blur-md rounded-2xl p-6 shadow-lg
                       hover:shadow-2xl hover:ring-2 hover:ring-sky-400 transform hover:scale-105 transition">
-            <!-- Status badge -->
+      
             <span class="absolute top-4 right-4 inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full @badgeBg @badgeText">
                 <i class="fas @statusIcon mr-1"></i>
                 @item.CurrentStatus
@@ -37,10 +37,10 @@
                         hover:bg-sky-600 transition">
                     <i class="fas fa-arrow-right mr-1"></i> View
                 </a>
-                <a asp-controller="Equipment" asp-action="Edit" asp-route-id="@item.Id"
+                <a asp-controller="Ticket" asp-action="Create" asp-route-equipmentId="@item.Id"
                    class="inline-flex items-center bg-yellow-200 text-white px-4 py-2 rounded-full text-sm font-medium shadow
                         hover:bg-yellow-300 transition">
-                    <i class=""></i> Edit
+                    <i class=""></i> Open Ticket
                 </a>
             </div>
         </div>

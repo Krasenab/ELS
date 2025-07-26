@@ -13,7 +13,7 @@ namespace ELS.ViewModels
 
         public string EquipmentName { get; set; }
 
-        public string Prioroty  { get; set; }
+        public string Priority { get; set; }
 
         public string Status { get; set; }
 
