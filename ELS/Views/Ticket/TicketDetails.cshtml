@@ -35,10 +35,13 @@
                     </div>
                     <div class="space-y-1">
                         <p class="text-sm font-medium text-gray-500 uppercase">Статус</p>
-                        <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full @(
-                                              Model.Status == "Closed" ? "bg-red-100 text-red-800" :
-                                              Model.Status == "In Progress" ? "bg-yellow-100 text-yellow-800" :
-                                                                               "bg-green-100 text-green-800")">
+                        <span id="ticket-status"
+                              class="inline-flex px-3 py-1 text-xs font-semibold rounded-full @(
+                                                                            Model.Status == "Closed" ? "bg-red-100 text-red-800" :
+                                                                            Model.Status == "In Progress" ? "bg-green-500 text-yellow-800" :
+                                                                           Model.Status == "Cancelled" ? "bg-amber-400":  
+                                                                           Model.Status == "Open" ? "bg-yellow-200" : "")">
+                                                                                                                            
                             @Model.Status
                         </span>
                     </div>
@@ -50,17 +53,14 @@
                         <p class="text-sm font-medium text-gray-500 uppercase">Описание</p>
                         <p class="text-gray-700">@Model.Description</p>
                     </div>
-                
-                        <div class="md:col-span-2 space-y-1">
-                            <p class="text-sm font-medium text-gray-500 uppercase">Техник</p>
-                            <p class="text-gray-700">@Model.Technician</p>
-                        </div>
-                    
+
+                    <div class="md:col-span-2 space-y-1">
+                        <p class="text-sm font-medium text-gray-500 uppercase">Техник</p>
+                        <p id="ticket-technician" class="text-gray-700">@Model.Technician</p>
+                    </div>
                 </div>
 
-            
                 <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-4">
-  
                     <div class="relative">
                         <button id="statusBtn"
                                 class="inline-flex items-center px-6 py-2 bg-indigo-600 text-white rounded-full shadow-lg
@@ -83,16 +83,21 @@
                     </div>
 
                     <!-- Take Ticket -->
-                  
-                        <form asp-action="AssignToMe" method="post" class="inline">
-                            <input type="hidden" name="ticketId" value="@Model.Id" />
-                            <button type="submit"
-                                    class="inline-flex items-center px-6 py-2 bg-sky-400 text-white rounded-full shadow-lg
+                    @* <form asp-action="AssignToMe" method="post" class="inline">
+                        <input type="hidden" name="ticketId" value="@Model.Id" />
+                        <button type="submit"
+                                class="inline-flex items-center px-6 py-2 bg-sky-400 text-white rounded-full shadow-lg
                                  hover:bg-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-300 transition">
-                                <i class="fas fa-user-check mr-2"></i> Вземи тикета
-                            </button>
-                        </form>
-                    
+                            <i class="fas fa-user-check mr-2"></i> Вземи тикета
+                        </button>
+                    </form> *@
+                    <button id="assignBtn"
+                            data-ticket-id="@Model.Id"
+                            data-technician-id="@Model.CurrentUserId"
+                            class="inline-flex items-center px-6 py-2 bg-sky-400 text-white rounded-full shadow-lg
+                              hover:bg-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-300 transition">
+                        <i class="fas fa-user-check mr-2"></i> Вземи тикета
+                    </button>
                 </div>
 
             </div>
@@ -102,11 +107,10 @@
 
 @section Scripts {
     <script>
-        $('#statusBtn').on('click',function()
-        {
+        $('#statusBtn').on('click', function () {
             $('#statusMenu').toggleClass('hidden');
         });
-          // AJAX логика
+
         $('.status-change-btn').on('click', function (e) {
             e.preventDefault();
 
@@ -114,42 +118,80 @@
             var newStatus = $(this).data('status');
 
             $.ajax({
-                url: '/YourController/ChangeStatus', // смени с реален път
+                url: '/Ticket/ChangeStatus',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     ticketId: ticketId,
-                    newStatus: newStatus
+                    ticketStatus: newStatus
                 }),
                 success: function (response) {
-                    if (response.success) {
-                        // Смени текста и стила на статуса
-                        var $statusSpan = $('span.inline-flex:contains("'+ response.newStatus +'")');
-                        var $allStatusSpans = $('span.inline-flex');
+                    console.log(response);
 
-                        $allStatusSpans.text(response.newStatus);
-                        $allStatusSpans
+
+                    if (response.success) {
+                        var $statusSpan = $('#ticket-status');
+                        var trimmedStatus = $.trim(newStatus);
+
+                        $statusSpan.text(trimmedStatus);
+                        $statusSpan
                             .removeClass()
                             .addClass("inline-flex px-3 py-1 text-xs font-semibold rounded-full");
 
-                        if (response.newStatus === "Closed") {
-                            $allStatusSpans.addClass("bg-red-100 text-red-800");
-                        } else if (response.newStatus === "In Progress") {
-                            $allStatusSpans.addClass("bg-yellow-100 text-yellow-800");
-                        } else {
-                            $allStatusSpans.addClass("bg-green-100 text-green-800");
+                        if (trimmedStatus === "Closed") {
+                            $statusSpan.addClass("bg-red-100 text-red-800");
+                        } else if (trimmedStatus === "In Progress") {
+                            $statusSpan.addClass("bg-yellow-100 text-yellow-800");
+                        }else if(trimmedStatus === "Cancelled")
+                        {
+                            $statusSpan.addClass("bg-amber-400 text-black-500")
+                        }
+                        else if(trimmedStatus === "Open")
+                        {
+                            $statusSpan.addClass("bg-yellow-300 text-yeallow-300")
+                        }
+                        else {
+                            $statusSpan.addClass("bg-green-100 text-green-800");
                         }
 
                         $('#statusMenu').addClass('hidden');
+                    } else {
+                        alert(response.message || 'Грешка при смяната на статуса.');
                     }
                 },
                 error: function () {
-                    alert('Възникна грешка при смяна на статуса.');
+                    alert('Възникна грешка при заявката.');
                 }
             });
         });
 
+               $('#assignBtn').on('click', function (e) {
+            e.preventDefault();
 
+            var ticketId = $(this).data('ticket-id');
+            var technicianId = $(this).data('technician-id');
+
+            $.ajax({
+                url: '/Ticket/AssignToMe',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    ticketId: ticketId,
+                    technicianId: technicianId
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        $('#ticket-technician').text(response.technicianName); // Обнови името в UI
+                        $('#assignBtn').hide(); // Скрий бутона, ако искаш
+                    } else {
+                        alert(response.message || 'Неуспешно взимане на тикета.');
+                    }
+                },
+                error: function () {
+                    alert('Сървърна грешка.');
+                }
+            });
+        });
 
     </script>
 }

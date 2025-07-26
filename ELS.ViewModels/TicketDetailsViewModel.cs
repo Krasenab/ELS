@@ -15,6 +15,7 @@ namespace ELS.ViewModels
         public string EquipmentName { get; set; }
         public string Description { get; set; }
         public string? Technician { get; set; }
+        public string? CurrentUserId { get; set; }
         public string Priority { get; set; }
         public string Status { get; set; }
         public List<TicketStatus> Statuses { get; set; }

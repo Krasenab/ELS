@@ -1,4 +1,5 @@
-﻿using ELS.Service.Interfaces;
+﻿using ELS.Infrastrucure;
+using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using static ELS.Infrastrucure.ClaimsPrincipalExtensions;
@@ -62,13 +63,22 @@ namespace ELS.Controllers
         [HttpGet]
         public async Task<IActionResult> TicketDetails(string ticketId) 
         {
+            string currentUserId = ClaimsPrincipalExtensions.getCurrentUserId(this.User);
             TicketDetailsViewModel viewModel = await _ticketService.GetTicketDetailsAsync(ticketId);
+            viewModel.CurrentUserId = currentUserId;
             viewModel.Statuses = _ticketService.GetStatuses();
 
             return View(viewModel);
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus([FromBody] ChangeTicketStatusViewModel dtoModel) 
+        {
+           await _ticketService.ChangeStatusAsync(dtoModel.ticketId, dtoModel.ticketStatus);
+            TempData["SuccessMessage"] = "Ticket status has been changed";
+            return Json(new { success = true, message = TempData["SuccessMessage"] });
+
+        }
 
 
     }

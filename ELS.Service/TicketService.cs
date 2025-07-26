@@ -21,6 +21,16 @@ namespace ELS.Service
             this._dbContext = dbContext;
         }
 
+        public async Task ChangeStatusAsync(string ticketId, string status)
+        {
+            Ticket? t = await _dbContext.Tickets.Where(tid=>tid.TicketId.ToString() == ticketId).FirstOrDefaultAsync();
+
+            t.Status = status;
+
+           
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task CreateTicketAsync(CreateTicketViewModel inputModel)
         {
             Ticket ticket = new Ticket()
@@ -124,6 +134,13 @@ namespace ELS.Service
                 })
                 .FirstOrDefaultAsync();
             return ticket;
+        }
+
+        public async Task SetTechnicianAsync(string ticketId, string technicianId)
+        {
+            Ticket? ticket = await _dbContext.Tickets.Where(tid => tid.TicketId.ToString() == ticketId).FirstOrDefaultAsync();
+            ticket.TechnicianId = Guid.Parse(technicianId);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
