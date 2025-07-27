@@ -1,3 +1,4 @@
+using ELS.Controllers;
 using ELS.Data;
 using ELS.Service;
 using ELS.Service.Interfaces;
@@ -38,12 +39,11 @@ namespace ELS
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IEquipmentService, EquipmentService>();
             builder.Services.AddScoped<ITicketService, TicketService>();
+            builder.Services.AddScoped<ITechnicianUserService, TechnicianUserService>();
           
-            
-
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+   
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();

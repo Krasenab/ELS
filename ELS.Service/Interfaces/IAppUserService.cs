@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELS.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace ELS.Service.Interfaces
 {
     public interface IAppUserService
     {
-        string UserEmail(string firmId);
+        public string UserEmail(string firmId);
+        public Task<AppUserViewModel> GetAppUserAsync(string appUserId);
 
     }
 }

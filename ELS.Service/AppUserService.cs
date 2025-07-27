@@ -1,5 +1,6 @@
 ﻿using ELS.Data;
 using ELS.Service.Interfaces;
+using ELS.ViewModels;
 
 namespace ELS.Service
 {
@@ -9,6 +10,11 @@ namespace ELS.Service
         public AppUserService(ElsDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Task<AppUserViewModel> GetAppUserAsync(string appUserId)
+        {
+            throw new NotImplementedException();
         }
 
         public string UserEmail(string firmId)
