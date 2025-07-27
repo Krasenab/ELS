@@ -10,6 +10,7 @@ namespace ELS.Service.Interfaces
 {
     public interface ITicketService
     {
+        public Task<bool> IsTiecketExistByIdAsync(string ticketId);
         public Task ChangeStatusAsync(string ticketId,string status);
         public Task SetTechnicianAsync(string ticketId,string technicianId);
         public Task CreateTicketAsync(CreateTicketViewModel inputModel);

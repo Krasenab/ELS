@@ -136,6 +136,18 @@ namespace ELS.Service
             return ticket;
         }
 
+        public async Task<bool> IsTiecketExistByIdAsync(string ticketId)
+        {
+            bool isExist = await _dbContext.Tickets.Where(tid=>tid.TicketId.ToString()==ticketId).AnyAsync();
+            if (!isExist)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
         public async Task SetTechnicianAsync(string ticketId, string technicianId)
         {
             Ticket? ticket = await _dbContext.Tickets.Where(tid => tid.TicketId.ToString() == ticketId).FirstOrDefaultAsync();
