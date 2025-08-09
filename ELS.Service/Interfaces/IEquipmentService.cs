@@ -5,6 +5,7 @@ namespace ELS.Service.Interfaces
 {
     public interface IEquipmentService
     {
+        public Task RemoveEquipmentAsync(string equipmentId);
         public Task AddEquipmentAsync(AddEquipmentViewModel viewModel);
         public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync();
         public List<EquipmentStatus> GetEuqipmentStatuses(); 

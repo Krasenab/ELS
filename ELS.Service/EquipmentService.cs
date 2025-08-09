@@ -17,6 +17,23 @@ namespace ELS.Service
         {
             this._dbContext = dbContext;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task AddEquipmentAsync(AddEquipmentViewModel viewModel)
         {
             Equipment equipment = new Equipment()
@@ -184,6 +201,13 @@ namespace ELS.Service
         public List<EquipmentStatus> GetEuqipmentStatuses()
         {
             return Enum.GetValues(typeof(EquipmentStatus)).Cast<EquipmentStatus>().ToList();
-        } 
+        }
+
+        public async Task RemoveEquipmentAsync(string equipmentId)
+        {
+           Equipment? e = await _dbContext.Equipments.Where(e=>e.Id.ToString()==equipmentId).FirstOrDefaultAsync();
+           _dbContext.Equipments.Remove(e);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

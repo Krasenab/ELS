@@ -4,6 +4,7 @@ using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Specialized;
 
 namespace ELS.Controllers
 {
@@ -11,11 +12,12 @@ namespace ELS.Controllers
     {
         private ICategoryService _categoryService;
         private IEquipmentService _equipmentService;
-
-        public EquipmentController(ICategoryService categoryService, IEquipmentService equipmentService)
+        private ITicketService _ticketService;
+        public EquipmentController(ICategoryService categoryService, IEquipmentService equipmentService,ITicketService ticketService)
         {
             _categoryService = categoryService;
             _equipmentService = equipmentService;
+            _ticketService = ticketService;
 
         }
         [HttpGet]
@@ -87,10 +89,13 @@ namespace ELS.Controllers
             await _equipmentService.EditEquipmentAsync(view);   
             return RedirectToAction("All", "Equipment");
         }
-        [HttpPost]
-        public async Task<IActionResult> Delete(string equipmentId) 
+        
+        public async Task<IActionResult> Delete(string id) 
         {
+            await _ticketService.DeleteAllEquipmentTicketsAsync(id);
+            await _equipmentService.RemoveEquipmentAsync(id);
 
+            return RedirectToAction("All", "Equipment");
         }
 
     }
