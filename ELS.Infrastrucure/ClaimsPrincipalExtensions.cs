@@ -10,5 +10,10 @@ namespace ELS.Infrastrucure
 
             return result;
         }
+        public static bool IsAutchenticated(ClaimsPrincipal user) 
+        {
+            return user.Identity.IsAuthenticated;
+           
+        }
     }
 }

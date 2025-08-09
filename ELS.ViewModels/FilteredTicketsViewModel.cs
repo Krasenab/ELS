@@ -12,7 +12,7 @@ namespace ELS.ViewModels
         public string? SearchTerm { get; set; }
         public string? Status { get; set; }
         public List<TicketStatus> Statuses { get; set; }
-        
+        public string? AppUserId { get; set; }
         public string? Priority { get; set; }
         public List<TicketPriority> Priorities { get; set; }     
 

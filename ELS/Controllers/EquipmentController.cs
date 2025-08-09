@@ -33,9 +33,16 @@ namespace ELS.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddEquipmentViewModel viewModel) 
         {
-          await  _equipmentService.AddEquipmentAsync(viewModel);
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Invalid form";
+                return View();
+            }
 
-            return RedirectToAction("Index", "Home");
+            await  _equipmentService.AddEquipmentAsync(viewModel);
+            TempData["SuccessMessage"] = "Successfully added to the inventory";
+            
+            return RedirectToAction("All", "Equipment");
         }
 
         [HttpGet]
@@ -68,10 +75,7 @@ namespace ELS.Controllers
         public async Task<IActionResult> Edit(string id) 
         {
             EditEquipmentViewModel e = await _equipmentService.GetEquipmetForEditByIdAsync(id);
-            if (e == null) 
-            {
-
-            }
+           
             e.EquipmentStatuses = _equipmentService.GetEuqipmentStatuses();
             e.Categories = await _categoryService.GetAllCategoriesAsync();
             return View(e);
@@ -83,7 +87,11 @@ namespace ELS.Controllers
             await _equipmentService.EditEquipmentAsync(view);   
             return RedirectToAction("All", "Equipment");
         }
+        [HttpPost]
+        public async Task<IActionResult> Delete(string equipmentId) 
+        {
 
+        }
 
     }
 }

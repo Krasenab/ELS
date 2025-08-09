@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace ELS.ViewModels
 {
-    public class TakeTicketViewModel
+    public class ReportDetailViewModel
     {
-        public string ticketId { get; set; }
-        public string appUserId { get; set; }
     }
 }

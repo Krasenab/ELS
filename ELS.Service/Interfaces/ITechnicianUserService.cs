@@ -9,6 +9,9 @@ namespace ELS.Service.Interfaces
 {
     public interface ITechnicianUserService
     {
-        public Task RegisterAsTechnician(RegistierAsTechnicianViewModel viewMode);
+        public Task<string> GetTechnicianIdAsync(string applicationUserId);
+        public Task RegisterAsTechnician(RegisterAsTechnicianViewModel viewMode);
+        public Task<bool> IsTechnicianExistByUserIdAsync(string appUserId);
+        
     }
 }

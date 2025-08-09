@@ -2,14 +2,14 @@
 <div class="flex-grow font-sans antialiased bg-gray-50">
 
     <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-       
+
         <div class="absolute -top-32 -left-32 w-80 h-80 bg-sky-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"></div>
         <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10">
 
-                
+
                 <div class="flex items-center justify-center mb-8 space-x-3">
                     <i class="fas fa-ticket-alt text-3xl text-sky-400"></i>
                     <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">
@@ -18,7 +18,7 @@
                     <i class="fas fa-info-circle text-3xl text-sky-400"></i>
                 </div>
 
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div class="space-y-1">
                         <p class="text-sm font-medium text-gray-500 uppercase">Оборудване</p>
@@ -37,11 +37,11 @@
                         <p class="text-sm font-medium text-gray-500 uppercase">Статус</p>
                         <span id="ticket-status"
                               class="inline-flex px-3 py-1 text-xs font-semibold rounded-full @(
-                                                                            Model.Status == "Closed" ? "bg-red-100 text-red-800" :
-                                                                            Model.Status == "In Progress" ? "bg-green-500 text-yellow-800" :
-                                                                           Model.Status == "Cancelled" ? "bg-amber-400":  
-                                                                           Model.Status == "Open" ? "bg-yellow-200" : "")">
-                                                                                                                            
+                                                                                                          Model.Status == "Closed" ? "bg-red-100 text-red-800" :
+                                                                                                          Model.Status == "In Progress" ? "bg-green-500 text-yellow-800" :
+                                                                                                         Model.Status == "Cancelled" ? "bg-amber-400" :
+                                                                                                         Model.Status == "Open" ? "bg-yellow-200" : "")">
+
                             @Model.Status
                         </span>
                     </div>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-               @*  <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-4">
+                <div class="flex flex-col sm:flex-row justify-center sm:justify-end gap-4">
                     <div class="relative">
                         <button id="statusBtn"
                                 class="inline-flex items-center px-6 py-2 bg-indigo-600 text-white rounded-full shadow-lg
@@ -80,16 +80,9 @@
                                 </li>
                             }
                         </ul>
-                    </div> *@
+                    </div>
 
                    
-                    <button id="assignBtn"
-                            data-ticket-id="@Model.Id"
-                            data-technician-id="@Model.CurrentUserId"
-                            class="inline-flex items-center px-6 py-2 bg-sky-400 text-white rounded-full shadow-lg
-                              hover:bg-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-300 transition">
-                        <i class="fas fa-user-check mr-2"></i> Вземи тикета
-                    </button>
                 </div>
 
             </div>
@@ -157,33 +150,7 @@
             });
         });
 
-        $('#assignBtn').on('click', function (e) {
-            e.preventDefault();
-
-            var ticketId = $(this).data('ticket-id');
-            var technicianId = $(this).data('technician-id');
-
-            $.ajax({
-               url: '/Ticket/TakeTicket',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    ticketId: ticketId,
-                    appUserId: technicianId
-                }),
-                success: function (response) {
-                    if (response.success) {
-                        $('#ticket-technician').text(response.technicianName); // Обнови името в UI
-                        $('#assignBtn').hide(); // Скрий бутона, ако искаш
-                    } else {
-                        alert(response.message || 'Неуспешно взимане на тикета.');
-                    }
-                },
-                error: function () {
-                    alert('Сървърна грешка.');
-                }
-            });
-        });
+        
 
     </script>
 }

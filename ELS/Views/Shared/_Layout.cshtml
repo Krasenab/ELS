@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using ELS.Infrastrucure
+@using ELS.Service.Interfaces
+@inject ITechnicianUserService _techService;
+@{
+    string userId = null;
+    string techId = null;
+    if (ClaimsPrincipalExtensions.IsAutchenticated(this.User))
+    {
+         userId = ClaimsPrincipalExtensions.getCurrentUserId(this.User);
+         techId = await _techService.GetTechnicianIdAsync(userId);
+    }
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,7 +35,7 @@
     <link rel="stylesheet" href="~/css/toastr.css"  />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.13.0/lottie.min.js" integrity="sha512-uOtp2vx2X/5+tLBEf5UoQyqwAkFZJBM5XwGa7BfXDnWR+wdpRvlSVzaIVcRe3tGNsStu6UMDCeXKEnr4IBT8gA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
     <partial name="_NotificationPartial"></partial>
@@ -44,6 +58,21 @@
                            class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
                             Privacy
                         </a>
+                        @if (techId==null)
+                        {
+                            <a asp-area="" asp-controller="Technician" asp-action="RegisterAsTechnician"
+                               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                                Join as technician
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Technician" asp-action="TechnicianBoard" asp-route-technicianId = "@techId"
+                               class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200">
+                                Work Board
+                            </a>
+                        }
+
                         <div class="border-l border-gray-600 pl-6">
                             <partial name="_LoginPartial" class="px-3 py-2 font-medium text-gray-200 hover:text-sky-400 transition-colors duration-200" />
                         </div>

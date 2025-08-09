@@ -1,0 +1,164 @@
+﻿@model RegisterAsTechnicianViewModel;
+<div class="flex-grow font-sans antialiased bg-gradient-to-br from-white to-sky-50">
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+
+        <div class="absolute -top-32 -left-32 w-80 h-80 bg-sky-300 rounded-full filter blur-3xl mix-blend-multiply opacity-30"></div>
+        <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-sky-100 rounded-full filter blur-3xl mix-blend-multiply opacity-20"></div>
+
+        <div class="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 sm:p-10">
+                <div class="flex justify-center mb-6 space-x-2">
+                    <i class="fas fa-user-plus text-3xl text-sky-400"></i>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">
+                        Join as technician in <span class="text-sky-400">EquipLog</span>
+                    </h1>
+                </div>
+                <p class="text-center text-gray-600 mb-8">
+                    Бърза регистрация на нов потребител
+                </p>
+
+                <form asp-controller="Technician" asp-action="RegisterAsTechnician" method="post"
+                      class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="relative">
+                        <input asp-for="FirstName" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="FirstName"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            Име
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span asp-validation-for="FirstName" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <div class="relative">
+                        <input asp-for="LastName" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="LastName"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            Фамилия
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
+                    </div>
+
+
+                    <div class="relative">
+                        <input asp-for="FirmId" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="FirmId"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            Firm ID 
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-building"></i>
+                        </span>
+                        <span asp-validation-for="FirmId" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <div class="relative">
+                        <input asp-for="FirstName" placeholder=" " readonly
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="FirstName"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            First Name
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-sitemap"></i>
+                        </span>
+                        <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
+                    </div>
+                    <div class="relative">
+                        <input asp-for="LastName" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="LastName"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            Last Name
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-sitemap"></i>
+                        </span>
+                        <span asp-validation-for="LastName" class="text-red-600 text-sm"></span>
+                    </div>
+                    <div class="relative">
+                        <input asp-for="PhoneNumber" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="PhoneNumber"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            Phone Number
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-sitemap"></i>
+                        </span>
+                        <span asp-validation-for="PhoneNumber" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <div class="md:col-span-2 relative">
+                        <input asp-for="Email" type="email" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="Email"
+                               class="absolute left-4 transition-all pointer-events-none
+                          text-gray-500 top-3 text-base
+                          peer-placeholder-shown:top-3 peer-placeholder-shown:text-base
+                          peer-focus:top-1 peer-focus:text-sm peer-focus:text-sky-400
+                          peer-not-placeholder-shown:top-1 peer-not-placeholder-shown:text-sm">
+                            Email
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <span asp-validation-for="Email" class="text-red-600 text-sm"></span>
+                    </div>
+
+
+                    
+
+                    <div class="md:col-span-2 text-center mt-4">
+                        <button type="submit"
+                                class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-sky-600 text-white text-base font-semibold rounded-full shadow-xl
+                           hover:bg-sky-500 transform hover:-translate-y-0.5 transition focus:outline-none focus:ring-4 focus:ring-sky-400">
+                            <i class="fas fa-user-check"></i> Join As Technician
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>

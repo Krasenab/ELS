@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ELS.Service
 {
@@ -24,11 +25,18 @@ namespace ELS.Service
         public async Task ChangeStatusAsync(string ticketId, string status)
         {
             Ticket? t = await _dbContext.Tickets.Where(tid=>tid.TicketId.ToString() == ticketId).FirstOrDefaultAsync();
-
-            t.Status = status;
-
-           
+            t.Status = status;           
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckForOwnerAsync(string ticketId)
+        {
+            bool isExistOwenr = await _dbContext.Tickets.Where(x => x.TicketId.ToString() == ticketId).Select(s => s.TechnicianId == null).AnyAsync();
+            if (isExistOwenr)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task CreateTicketAsync(CreateTicketViewModel inputModel)
@@ -50,45 +58,67 @@ namespace ELS.Service
         
         }
 
+        public async Task DeleteAllEquipmentTicketsAsync(string equipmentId)
+        {
+            
+           List<Ticket> tickets =  await _dbContext.Tickets.Where(e=>e.EquipmentId.ToString()==equipmentId).ToListAsync();
+            foreach (Ticket ticket in tickets) 
+            {
+                _dbContext.Tickets.Remove(ticket);
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<List<AllTicketsViewModel>> FilteredAllTicketsAsync(string searchTerm, string status,string priority)
         {
-            var ticketsQuery = _dbContext.Tickets.AsQueryable();
+
+            var ticketsQuery = _dbContext.Tickets
+                .Include(e => e.Technician)
+                .ThenInclude(t => t.AppUser)
+                .Include(e => e.Equipment)
+                .AsQueryable();
             List<AllTicketsViewModel> allTickets = new List<AllTicketsViewModel>();
-            if (!String.IsNullOrEmpty(searchTerm) || !string.IsNullOrWhiteSpace(searchTerm)) 
+            if (!string.IsNullOrEmpty(searchTerm) || !string.IsNullOrWhiteSpace(searchTerm))
             {
-               ticketsQuery.Where(t =>
-                
-                   EF.Functions.Like(t.Title,searchTerm)||
-                   EF.Functions.Like(t.Technician.AppUser.FirstName,searchTerm)
-                   
+                var pattern = $"%{searchTerm.Trim()}%";
+
+                ticketsQuery = ticketsQuery.Where(t =>
+                 EF.Functions.Like(t.Title, pattern) ||
+                 (t.Technician != null && t.Technician.AppUser != null &&
+                 EF.Functions.Like(t.Technician.AppUser.FirstName ?? "", pattern))
+                     );
+            }
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                ticketsQuery = ticketsQuery.Where(t =>
+                    t.Status == status
                 );
             }
 
-            if (!String.IsNullOrEmpty(status) || !String.IsNullOrWhiteSpace(status)) 
+            if (!string.IsNullOrWhiteSpace(priority))
             {
-                ticketsQuery.Where(t =>
-                    EF.Functions.Like(t.Status,status)
-
+                ticketsQuery = ticketsQuery.Where(t =>
+                    t.Priority == priority
                 );
-            }
-            if (!String.IsNullOrEmpty(priority) || !String.IsNullOrWhiteSpace(priority)) 
-            {
-                ticketsQuery.Where( t=> 
-                 EF.Functions.Like(t.Priority,priority)
-                    );
             }
 
             allTickets = await ticketsQuery.Select(t=> new AllTicketsViewModel() 
             {
+                Id = t.TicketId.ToString(),
                 Title = t.Title,
                 CreatedOn = t.CreatedAt.ToString(),
-                Technician = t.Technician.AppUser.FirstName,
+                Technician = t.Technician != null && t.Technician.AppUser != null
+                        ? t.Technician.AppUser.FirstName
+                        : "—",
                 Priority = t.Priority,
                 Status = t.Status,
                 EquipmentName  = t.Equipment.EquipmentName
 
             }).ToListAsync();
-           return allTickets;
+   
+            return allTickets;
         }
 
         public async Task<List<AllTicketsViewModel>> GetAllTicketsAsync()
@@ -136,6 +166,21 @@ namespace ELS.Service
             return ticket;
         }
 
+        public async Task<List<TicketDetailsViewModel>> GetTIcketsByTechnicianIdAsync(string technicianId)
+        {
+            List<TicketDetailsViewModel> ticketDetailsViewModel = await _dbContext.Tickets.Where(techId => techId.TechnicianId.ToString() == technicianId).Select(t => new TicketDetailsViewModel()
+            {
+                Id = t.TicketId.ToString(),
+                Title = t.Title,
+                Priority = t.Priority,
+                Description = t.Description,
+                Status = t.Status,
+                EquipmentName = t.Equipment.EquipmentName,
+                CreatedAt = t.CreatedAt.ToString()
+            }).ToListAsync();
+            return ticketDetailsViewModel;
+        }
+
         public async Task<bool> IsTiecketExistByIdAsync(string ticketId)
         {
             bool isExist = await _dbContext.Tickets.Where(tid=>tid.TicketId.ToString()==ticketId).AnyAsync();
@@ -154,5 +199,7 @@ namespace ELS.Service
             ticket.TechnicianId = Guid.Parse(technicianId);
             await _dbContext.SaveChangesAsync();
         }
+
+        
     }
 }

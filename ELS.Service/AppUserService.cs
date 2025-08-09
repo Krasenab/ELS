@@ -1,6 +1,7 @@
 ﻿using ELS.Data;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELS.Service
 {
@@ -12,9 +13,21 @@ namespace ELS.Service
             _dbContext = dbContext;
         }
 
-        public Task<AppUserViewModel> GetAppUserAsync(string appUserId)
+        public async Task<AppUserViewModel> GetAppUserAsync(string appUserId)
         {
-            throw new NotImplementedException();
+            AppUserViewModel? appUser = await _dbContext.AppUsers.Where(id => id.Id.ToString() == appUserId)
+                .Select(appU => new AppUserViewModel()
+                {
+                    Id = appUserId,
+                    Email = appU.Email,
+                    Department = appU.Department,
+                    FirmId = appU.FirmId,
+                    FirstName = appU.FirstName,
+                    LastName = appU.LastName,
+                    UserName = appU.UserName
+                }).FirstOrDefaultAsync();
+
+            return appUser;
         }
 
         public string UserEmail(string firmId)

@@ -8,15 +8,16 @@ using System.Threading.Tasks;
 
 namespace ELS.ViewModels
 {
-    public class RegistierAsTechnicianViewModel
+    public class RegisterAsTechnicianViewModel
     {
         
         public string FirmId { get; set; }        
-        public string AppUserId { get; set; }
+        public string? AppUserId { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+      
 
 
     }
