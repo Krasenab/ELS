@@ -8,8 +8,6 @@
     <!-- Google Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
 
-    <!-- Tailwind CSS via official CDN -->
-    
 
     <!-- Lottie Player -->
     <script src="https://unpkg.com/@@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
@@ -23,17 +21,17 @@
     <!-- Hero Section -->
     <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
         <!-- Background Animation -->
-        <lottie-player src="~/lottie/hero-animation.json"
+       @*  <lottie-player src="~/lottie/hero-animation.json"
                        background="transparent"
                        speed="1"
                        class="absolute inset-0 w-full h-full opacity-30"
                        loop
-                       autoplay></lottie-player>
+                       autoplay></lottie-player> *@
 
         <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 z-10">
             <!-- Text Content -->
             <div class="bg-white bg-opacity-80 backdrop-blur-lg p-8 rounded-2xl shadow-2xl flex-1">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
                     Добре дошли в <span class="text-sky-600">EquipLogSystem</span>
                 </h1>
                 <p class="text-lg text-gray-700 mb-6">
@@ -43,7 +41,7 @@
                     <a href="#tickets" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-gray-800 text-white rounded-full font-semibold shadow-lg hover:bg-gray-900 transition">
                         <i class="fas fa-ticket-alt mr-2"></i> Създай тикет
                     </a>
-                    <a href="#equipment" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-sky-600 text-white rounded-full font-semibold shadow-lg hover:bg-sky-700 transition">
+                    <a asp-action="Add" asp-controller="Equipment"  class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-sky-600 text-white rounded-full font-semibold shadow-lg hover:bg-sky-700 transition">
                         <i class="fas fa-box-open mr-2"></i> Логни оборудване
                     </a>
                 </div>
@@ -63,47 +61,69 @@
 
     <!-- Services Section -->
     <section id="services" class="bg-white py-12 sm:py-16">
+       
+
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl sm:text-4xl font-semibold text-gray-900 text-center mb-8">Услуги</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Service: Ticketing -->
-                <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
-                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_Qee3YGZtZV.json"
-                                   background="transparent" speed="1"
-                                   style="width:100px; height:100px; margin:0 auto;" loop autoplay>
-                    </lottie-player>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Управление на тикети</h3>
-                    <p class="text-gray-600 text-sm">Създавайте, проследявайте и затваряйте тикети с лесен интерфейс и известия.</p>
+            <div id="stats-card" class="relative overflow-hidden rounded-3xl bg-white/80 backdrop-blur-xl shadow-2xl ring-1 ring-gray-200">
+  
+                <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500"></div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+                    <!-- Тикети -->
+                    <div class="group p-8 flex items-center gap-5 transition-transform duration-300 hover:-translate-y-1">
+                        <div class="shrink-0 grid place-items-center h-12 w-12 rounded-2xl bg-sky-50 ring-1 ring-sky-100 shadow-md group-hover:scale-105 transition">
+                            <span class="text-xl"><i class="fa-solid fa-ticket"></i></span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Тикети</p>
+                            <p class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 tabular-nums">
+                                <span class="js-countup" data-count="128">0</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Оборудване -->
+                    <div class="group p-8 flex items-center gap-5 transition-transform duration-300 hover:-translate-y-1">
+                        <div class="shrink-0 grid place-items-center h-12 w-12 rounded-2xl bg-violet-50 ring-1 ring-violet-100 shadow-md group-hover:scale-105 transition">
+                            <span class="text-xl">📦</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Оборудване</p>
+                            <p class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 tabular-nums">
+                                <span class="js-countup" data-count="342">0</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Техници -->
+                    <div class="group p-8 flex items-center gap-5 transition-transform duration-300 hover:-translate-y-1">
+                        <div class="shrink-0 grid place-items-center h-12 w-12 rounded-2xl bg-emerald-50 ring-1 ring-emerald-100 shadow-md group-hover:scale-105 transition">
+                            <span class="text-xl">🧑‍🔧</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Техници</p>
+                            <p class="text-4xl sm:text-5xl font-extrabold tracking-tight text-gray-900 tabular-nums">
+                                <span class="js-countup" data-count="18">0</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <!-- Service: Equipment -->
-                <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
-                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_Qee3YGZtZV.json"
-                                   background="transparent" speed="1"
-                                   style="width:100px; height:100px; margin:0 auto;" loop autoplay>
-                    </lottie-player>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Управление на ресурси</h3>
-                    <p class="text-gray-600 text-sm">Добавяйте и следете състоянието на оборудването с визуални табла.</p>
-                </div>
-                <!-- Service: Monitoring -->
-                <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
-                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_Qee3YGZtZV.json"
-                                   background="transparent" speed="1"
-                                   style="width:100px; height:100px; margin:0 auto;" loop autoplay>
-                    </lottie-player>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Мониторинг в реално време</h3>
-                    <p class="text-gray-600 text-sm">Наблюдавайте процесите чрез динамични графики и нотификации.</p>
-                </div>
-                <!-- Service: Analytics -->
-                <div class="bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
-                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_Qee3YGZtZV.json"
-                                   background="transparent" speed="1"
-                                   style="width:100px; height:100px; margin:0 auto;" loop autoplay>
-                    </lottie-player>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Отчети и анализи</h3>
-                    <p class="text-gray-600 text-sm">Генерирайте подробни справки за ефективността и състоянието на оборудването.</p>
+
+                <!-- статус лента -->
+                <div class="flex items-center justify-between px-8 py-4 text-xs text-gray-500">
+                    <p>Актуализирано в реално време</p>
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span>Системата е активна</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        
     </section>
 
     <!-- Tickets Status Section -->
@@ -115,8 +135,8 @@
                 <p class="text-gray-700 max-w-md">
                     В реално време виждате къде се намират вашите тикети – от отваряне до приключване.
                 </p>
-                <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
-                    <i class="fas fa-eye mr-2"></i> Преглед на тикети
+                <a asp-controller="Ticket" asp-action="AllTickets" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
+                    <i class="fas fa-eye mr-2"></i> All tickets
                 </a>
             </div>
             <div class="flex justify-center">
@@ -147,7 +167,7 @@
                 <p class="text-gray-700 max-w-md">
                     Добавяйте, редактирайте и следете наличностите на вашето оборудване.
                 </p>
-                <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
+                <a asp-controller="Equipment" asp-action="All" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
                     <i class="fas fa-cogs mr-2"></i> Отиди към оборудване
                 </a>
             </div>
@@ -191,4 +211,36 @@
     </section>
 
 </body>
+<!-- Count-up анимация (замени data-count със server-side стойности при нужда) -->
+<script>
+    (() => {
+      const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+      const animate = el => {
+        const target = parseInt(el.dataset.count, 10) || 0;
+        const start = performance.now();
+        const dur = 1200;
+        const step = now => {
+          const p = Math.min((now - start) / dur, 1);
+          const val = Math.floor(target * easeOutCubic(p));
+          el.textContent = new Intl.NumberFormat('bg-BG').format(val);
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+
+      const card = document.getElementById('stats-card');
+      const run = () => card.querySelectorAll('.js-countup').forEach(animate);
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) { run(); obs.disconnect(); }
+          });
+        }, { threshold: 0.35 });
+        io.observe(card);
+      } else {
+        run(); // fallback
+      }
+    })();
+</script>
 </html>

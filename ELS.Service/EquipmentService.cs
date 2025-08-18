@@ -6,6 +6,7 @@ using ElsModels.SQL;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace ELS.Service
 {
@@ -17,21 +18,6 @@ namespace ELS.Service
         {
             this._dbContext = dbContext;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public async Task AddEquipmentAsync(AddEquipmentViewModel viewModel)
@@ -171,6 +157,31 @@ namespace ELS.Service
             }).ToListAsync();
             
             return result;
+        }
+
+        public async Task<EquipmentDetailsViewModel> GetEquipmentAsync(string equipmentId)
+        {
+            EquipmentDetailsViewModel? equipment = await _dbContext.Equipments.Where(e => e.Id.ToString() == equipmentId).Select(d => new EquipmentDetailsViewModel()
+            {
+                Id = d.Id.ToString(),
+                Name = d.EquipmentName,
+                SerialNumber = d.SerialNumber,
+                AddedFrom = d.AddedFrom,
+                CreatedAt = d.CreatedAt.ToString(),
+                CurrentStatus = d.CurrentStatus,
+                Category = d.Category.Name,
+                LifeSpanYears = d.LifeSpanYears,
+                AssetTag = d.AssetTag,
+                Location = d.Location,
+                Manufacturer = d.Manufacturer,
+                Model = d.Model,
+                Description = d.Description,
+                Warranty = d.EquipmentWarrantyMonths,
+                CustomProperties = d.CustomProperties,
+                Notes = d.Notes
+            }).FirstOrDefaultAsync();
+
+            return equipment;
         }
 
         public async Task<EditEquipmentViewModel> GetEquipmetForEditByIdAsync(string id)

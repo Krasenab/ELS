@@ -89,6 +89,14 @@ namespace ELS.Controllers
             await _equipmentService.EditEquipmentAsync(view);   
             return RedirectToAction("All", "Equipment");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id) 
+        {
+
+            EquipmentDetailsViewModel  equipment = await _equipmentService.GetEquipmentAsync(id);
+            return View(equipment);
+        }
         
         public async Task<IActionResult> Delete(string id) 
         {

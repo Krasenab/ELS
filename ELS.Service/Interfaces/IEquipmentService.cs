@@ -5,6 +5,7 @@ namespace ELS.Service.Interfaces
 {
     public interface IEquipmentService
     {
+        public Task<EquipmentDetailsViewModel> GetEquipmentAsync(string equipmentId);
         public Task RemoveEquipmentAsync(string equipmentId);
         public Task AddEquipmentAsync(AddEquipmentViewModel viewModel);
         public Task<List<AllEquipmentViewModel>> GetAllEquipmentAsync();
@@ -12,7 +13,5 @@ namespace ELS.Service.Interfaces
         public Task EditEquipmentAsync(EditEquipmentViewModel viewModel);
         public Task<EditEquipmentViewModel> GetEquipmetForEditByIdAsync(string id);
         public Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm,string category,string status);
-         
-
     }
 }

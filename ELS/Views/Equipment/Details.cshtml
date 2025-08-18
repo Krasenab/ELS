@@ -1,0 +1,186 @@
+﻿@model EquipmentDetailsViewModel;
+@{
+    ViewData["Title"] = "Equipment Details";
+
+    var status = (Model.CurrentStatus ?? "").ToLowerInvariant();
+    var (statusBg, statusText, statusDot) = status switch
+    {
+        "available"   => ("bg-emerald-50", "text-emerald-800", "bg-emerald-500"),
+        "in use"      => ("bg-amber-50", "text-amber-800", "bg-amber-500"),
+        "maintenance" => ("bg-sky-50", "text-sky-800", "bg-sky-500"),
+        "retired"     => ("bg-slate-100", "text-slate-700", "bg-slate-400"),
+        _             => ("bg-slate-50", "text-slate-700", "bg-slate-300")
+    };
+}
+
+<div class="min-h-screen bg-slate-50">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 py-10">
+
+        <!-- Header (без бордер) -->
+        <div class="rounded-3xl bg-white/90 backdrop-blur shadow-[0_8px_28px_rgba(2,6,23,.06)] p-6 sm:p-8 mb-8">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex gap-4">
+                    <div class="h-14 w-14 rounded-2xl bg-sky-500/10 flex items-center justify-center">
+                        <!-- box icon -->
+                        <svg class="h-7 w-7 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                            <path d="M3.3 7L12 12l8.7-5M12 22V12" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">@Model.Name</h1>
+                        <div class="mt-2 flex flex-wrap items-center gap-2">
+                            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold @statusBg @statusText">
+                                <span class="h-2.5 w-2.5 rounded-full @statusDot"></span>
+                                @(Model.CurrentStatus ?? "—")
+                            </span>
+
+                            @if (!string.IsNullOrWhiteSpace(Model.AssetTag))
+                            {
+                            <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-700 px-3 py-1 text-xs font-medium">
+                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h1v16H3V4Zm3 0h2v16H6V4Zm4 0h1v16h-1V4Zm3 0h3v16h-3V4Zm5 0h1v16h-1V4Z" /></svg>
+                                Asset: @Model.AssetTag
+                            </span>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Location))
+                            {
+                            <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-700 px-3 py-1 text-xs font-medium">
+                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-4.35 7-11a7 7 0 1 0-14 0c0 6.65 7 11 7 11Z" /><circle cx="12" cy="11" r="3" /></svg>
+                                @Model.Location
+                            </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <a asp-controller="Equipment" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white text-sm font-semibold px-5 py-2 shadow hover:shadow-lg transition">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5Z" /></svg>
+                        Edit
+                    </a>
+                    <form asp-controller="Equipment" asp-action="Delete" method="post" class="inline"
+                          onsubmit="return confirm('Are you sure you want to delete this equipment?');">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit"
+                                class="inline-flex items-center gap-2 rounded-full bg-rose-500 text-white text-sm font-semibold px-5 py-2 shadow hover:bg-rose-600 hover:shadow-lg transition">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID с повече въздух -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 xl:gap-8">
+            @* тайл компоненти *@
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Manufacturer</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.Manufacturer</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Model</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.Model</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Serial Number</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.SerialNumber</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Warranty (months)</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.Warranty</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Life span (years)</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.LifeSpanYears</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Last updated</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.CreatedAt</p>
+            </div>
+
+            <!-- Описание (заема 2 колони на lg+) -->
+            <div class="rounded-2xl bg-white shadow-sm p-6 md:col-span-2">
+                <h3 class="mb-2 text-base font-semibold text-slate-900 flex items-center gap-2">
+                    <svg class="h-4 w-4 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22h11A2.5 2.5 0 0 0 20 19.5v-15A2.5 2.5 0 0 0 17.5 2h-11A2.5 2.5 0 0 0 4 4.5v15Z" /><path d="M8 7h8M8 11h8M8 15h6" /></svg>
+                    Description
+                </h3>
+                <p class="text-slate-700 leading-relaxed">@(!string.IsNullOrWhiteSpace(Model.Description) ? Model.Description : "—")</p>
+            </div>
+
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <h3 class="mb-2 text-base font-semibold text-slate-900 flex items-center gap-2">
+                    <svg class="h-4 w-4 text-sky-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /></svg>
+                    Custom / Notes
+                </h3>
+                <div class="space-y-3 text-slate-700">
+                    <p><span class="font-medium text-slate-900">Notes:</span> @(!string.IsNullOrWhiteSpace(Model.Notes) ? Model.Notes : "—")</p>
+                    <p><span class="font-medium text-slate-900">Custom:</span> @(!string.IsNullOrWhiteSpace(Model.CustomProperties) ? Model.CustomProperties : "—")</p>
+                </div>
+            </div>
+
+            <!-- Meta -->
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Created</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.CreatedAt</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Category</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.Category</p>
+            </div>
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Location</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@(!string.IsNullOrWhiteSpace(Model.Location) ? Model.Location : "—")</p>
+            </div>
+        </div>
+
+        <!-- Compact media block (replaces the commented big image block) -->
+        <div class="mb-8">
+            @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+            {
+                <div class="rounded-2xl bg-white shadow-sm p-4 flex items-center gap-4 w-full sm:max-w-md">
+                    <img src="@Model.ImageUrl"
+                         alt="@Model.Name"
+                         loading="lazy"
+                         class="h-20 w-20 sm:h-24 sm:w-24 rounded-xl object-cover ring-1 ring-slate-200" />
+                    <div class="min-w-0">
+                        <p class="text-[11px] uppercase tracking-wide text-slate-500">Photo</p>
+                        <div class="mt-2 flex items-center gap-2">
+                            <a href="@Model.ImageUrl" target="_blank"
+                               class="inline-flex items-center rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 shadow hover:shadow-md transition">
+                                View
+                            </a>
+                            <a asp-controller="Equipment" asp-action="Edit" asp-route-id="@Model.Id"
+                               class="inline-flex items-center rounded-full bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1.5 hover:bg-slate-200 transition">
+                                Change
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="rounded-2xl bg-white shadow-sm p-4 flex items-center justify-between w-full sm:max-w-md">
+                    <div class="flex items-center gap-3">
+                        <!-- camera icon -->
+                        <svg class="h-6 w-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2v10Z" />
+                            <circle cx="12" cy="13" r="4" />
+                        </svg>
+                        <div>
+                            <p class="text-sm font-medium text-slate-900">No image</p>
+                            <p class="text-xs text-slate-500">Add a photo for easier recognition.</p>
+                        </div>
+                    </div>
+                    <a asp-controller="Equipment" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="inline-flex items-center rounded-full bg-slate-900 text-white text-xs font-semibold px-3 py-1.5 shadow hover:shadow-md transition">
+                        Add image
+                    </a>
+                </div>
+            }
+        </div>
+        
+    </div>
+</div>
