@@ -1,0 +1,127 @@
+﻿@model ReportCreateViewModel;
+
+@{
+    ViewData["Title"] = "Add report";
+}
+
+<div class="flex-grow font-sans antialiased bg-gray-50">
+
+    <section class="relative overflow-hidden py-16 sm:py-20 lg:py-24">
+
+        <!-- Премахнати blur-елементи -->
+
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10">
+
+                <!-- Заглавие -->
+                <div class="flex items-center justify-center mb-8 space-x-3">
+                    <i class="fas fa-file-alt text-3xl text-sky-400"></i>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">
+                        Създай <span class="text-sky-400">Репорт</span>
+                    </h1>
+                    <i class="fas fa-pen text-3xl text-sky-400"></i>
+                </div>
+                <p class="text-center text-gray-600 mb-10">
+                    Въведете необходимата информация и съдържание на репорта по-долу.
+                </p>
+
+                <!-- Формата -->
+                <form asp-action="Create" asp-controller="Reports" method="post" enctype="multipart/form-data"
+                      class="grid grid-cols-1 gap-6">
+
+                    <input type="hidden" asp-for="TicketId" />
+                    <input type="hidden" asp-for="TechnicianId" />
+                    <!-- Заглавие -->
+                    <div class="relative">
+                        <input asp-for="Title" placeholder=" " required
+                               class="peer w-full px-4 py-3 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <label asp-for="Title"
+                               class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500
+                          peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
+                          peer-focus:top-3 peer-focus:text-sm peer-focus:text-sky-400
+                          transition-all pointer-events-none">
+                            Заглавие
+                        </label>
+                        <span class="absolute inset-y-0 right-4 flex items-center text-gray-400">
+                            <i class="fas fa-heading"></i>
+                        </span>
+                        <span asp-validation-for="Title" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <!-- TinyMCE -->
+                    <div class="relative">
+                        <label asp-for="Content" class="block text-sm font-medium text-gray-600 mb-2">
+                            Съдържание на репорта
+                        </label>
+                        <textarea asp-for="Content" class="edit-with-tinymce w-full rounded-xl border border-gray-300 bg-gray-50"></textarea>
+                        <span asp-validation-for="Content" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <!-- Поле за прикачен файл (незадължително) -->
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-600 mb-2">Прикачи файл (по избор)</label>
+                        <input asp-for="Attachment" type="file"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-xl bg-gray-50
+                          focus:border-sky-400 focus:ring-2 focus:ring-sky-400 transition" />
+                        <span asp-validation-for="Attachment" class="text-red-600 text-sm"></span>
+                    </div>
+
+                    <!-- Бутон -->
+                    <div class="text-center mt-4">
+                        <button type="submit" asp-action ="CreateReport" asp-controller="Report"
+                                class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-sky-400 text-white text-base font-semibold rounded-full shadow-xl
+                           hover:bg-sky-500 transform hover:-translate-y-0.5 transition focus:outline-none focus:ring-4 focus:ring-sky-400">
+                            <i class="fas fa-paper-plane"></i> Send Report
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+@section Scripts {
+    <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+            tinymce.init({
+        selector: "textarea.edit-with-tinymce",
+        height: 500,
+        plugins: [
+            "lists link image table code media fullscreen wordcount searchreplace paste"
+        ],
+        toolbar: `
+            undo redo | styleselect |
+            bold italic underline forecolor backcolor |
+            alignleft aligncenter alignright alignjustify |
+            bullist numlist outdent indent |
+            link image media table |
+            code fullscreen searchreplace
+        `,
+        menubar: false, 
+        branding: false,
+        paste_data_images: true,
+        contextmenu: "link image table",
+        content_css: "/css/editor-content.css",
+        body_class: "tinymce-content"
+        });
+    </script>
+}
+
+
+@*  ﻿<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea.edit-with-tinymce",
+        relative_urls: false,
+        remove_script_host : false,
+        convert_urls : true,
+        plugins: [
+            "image paste table link code media fullscreen wordcount searchreplace lists"
+        ]
+    });
+</script> *@ 

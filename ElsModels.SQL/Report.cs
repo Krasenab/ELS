@@ -14,7 +14,7 @@ namespace ElsModels.SQL
         public Guid Id { get; set; }
 
         [Required]
-        public string ReportNumber { get; set; }
+        public string ReportSerialNumber { get; set; }
 
         [Required]
         [ForeignKey(nameof(TicketId))]
@@ -27,8 +27,8 @@ namespace ElsModels.SQL
         public Technician Technician { get; set; }
         [Required]
         public string WorkDescription { get; set; }
-        public decimal MaterialCost { get; set; }
-        public string? UsedParts { get; set; }
+        //public decimal MaterialCost { get; set; }
+        //public string? UsedParts { get; set; }
 
     }
 }

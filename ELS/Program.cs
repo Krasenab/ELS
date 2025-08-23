@@ -40,6 +40,7 @@ namespace ELS
             builder.Services.AddScoped<IEquipmentService, EquipmentService>();
             builder.Services.AddScoped<ITicketService, TicketService>();
             builder.Services.AddScoped<ITechnicianUserService, TechnicianUserService>();
+            builder.Services.AddScoped<IReportService, ReportService>();
           
             var app = builder.Build();
 
