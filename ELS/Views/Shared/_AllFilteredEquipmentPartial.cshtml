@@ -70,38 +70,5 @@
         }
        
     </div>
-    @if (Model.TotalPages > 1)
-    {
-        <div class="flex justify-center mt-8 space-x-2 text-sm font-medium select-none">
-
-            @* Предишна страница *@
-            @if (Model.PageNumber > 1)
-            {
-                <button class="pagination-btn px-4 py-2 rounded-full bg-white text-indigo-600 border border-indigo-300 hover:bg-indigo-50 transition"
-                        data-page="@(Model.PageNumber - 1)">
-                    ← Prev
-                </button>
-            }
-
-            @for (int i = 1; i <= Model.TotalPages; i++)
-            {
-                <button class="pagination-btn px-4 py-2 rounded-full border transition
-                                @(i == Model.PageNumber
-                                                                        ? "bg-sky-600 text-white font-semibold shadow"
-                                                                        : "bg-white text-indigo-600 border-indigo-300 hover:bg-indigo-50")"
-                data-page="@i">
-            @i
-        </button>
-                }
-
-            @* Следваща страница *@
-            @if (Model.PageNumber < Model.TotalPages)
-            {
-                <button class="pagination-btn px-4 py-2 rounded-full bg-white text-indigo-600 border border-indigo-300 hover:bg-indigo-50 transition"
-                        data-page="@(Model.PageNumber + 1)">
-                    Next →
-                </button>
-            }
-        </div>
-    }
+   
 </div>
