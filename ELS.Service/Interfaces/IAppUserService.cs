@@ -12,5 +12,7 @@ namespace ELS.Service.Interfaces
         public string UserEmail(string firmId);
         public Task<AppUserViewModel> GetAppUserAsync(string appUserId);
 
+        public Task<AppUserViewModel> GetUserByEmailAsync(string email);
+
     }
 }

@@ -60,12 +60,85 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="bg-white py-12 sm:py-16">
-       
+   
 
+    <!-- Tickets Status Section -->
+    <section id="tickets" class="relative bg-white py-12 sm:py-16">
+        <div class="absolute top-0 right-0 w-48 h-48 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-4">
+                <h2 class="text-3xl font-semibold text-gray-900">Следене на статус</h2>
+                <p class="text-gray-700 max-w-md">
+                    В реално време виждате къде се намират вашите тикети – от отваряне до приключване.
+                </p>
+                <a asp-controller="Ticket" asp-action="AllTickets" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
+                    <i class="fas fa-eye mr-2"></i> All tickets
+                </a>
+            </div>
+            <div class="flex justify-center">
+                <lottie-player src="@Url.Content("~/lottie/Note.json")"
+                               background="transparent"
+                               speed="1"
+                               style="width:250px; height:250px;"
+                               loop
+                               autoplay></lottie-player>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipment Management Section -->
+    <section id="equipment" class="relative bg-gray-50 py-12 sm:py-16">
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-gray-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="order-last md:order-first flex justify-center">
+                <lottie-player src="@Url.Content("~/lottie/Business Analysis.json")"
+                               background="transparent"
+                               speed="1"
+                               style="width:250px; height:250px;"
+                               loop
+                               autoplay></lottie-player>
+            </div>
+            <div class="space-y-4">
+                <h2 class="text-3xl font-semibold text-gray-900">Управление на ресурси</h2>
+                <p class="text-gray-700 max-w-md">
+                    Добавяйте, редактирайте и следете наличностите на вашето оборудване.
+                </p>
+                <a asp-controller="Equipment" asp-action="All" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
+                    <i class="fas fa-cogs mr-2"></i> Отиди към оборудване
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports & Analytics Section -->
+    <section class="relative bg-white py-12 sm:py-16">
+        <div class="absolute top-0 inset-x-1/2 transform -translate-x-1/2 w-48 h-48 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-4">
+                <h2 class="text-3xl font-semibold text-gray-900">Отчети и анализи</h2>
+                <p class="text-gray-700 max-w-md">
+                    Генерирайте подробни справки и анализи за подобряване на ефективността и планиране на ресурсите.
+                </p>
+                <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
+                    <i class="fas fa-chart-pie mr-2"></i> Виж отчети
+                </a>
+            </div>
+            <div class="flex justify-center">
+                <lottie-player  src="@Url.Content("~/lottie/analysis-digital-marketing.json")"
+                               background="transparent"
+                               speed="1"
+                               style="width:500px; height:500px;"
+                               loop
+                               autoplay></lottie-player>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="services" class="bg-gray-50 py-12 sm:py-16">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div id="stats-card" class="relative overflow-hidden rounded-3xl bg-white/80 backdrop-blur-xl shadow-2xl ring-1 ring-gray-200">
-  
+
                 <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500"></div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
@@ -121,92 +194,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        
-    </section>
-
-    <!-- Tickets Status Section -->
-    <section id="tickets" class="relative bg-white py-12 sm:py-16">
-        <div class="absolute top-0 right-0 w-48 h-48 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-4">
-                <h2 class="text-3xl font-semibold text-gray-900">Следене на статус</h2>
-                <p class="text-gray-700 max-w-md">
-                    В реално време виждате къде се намират вашите тикети – от отваряне до приключване.
-                </p>
-                <a asp-controller="Ticket" asp-action="AllTickets" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
-                    <i class="fas fa-eye mr-2"></i> All tickets
-                </a>
-            </div>
-            <div class="flex justify-center">
-                <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_Qee3YGZtZV.json"
-                               background="transparent"
-                               speed="1"
-                               style="width:200px; height:150px;"
-                               loop
-                               autoplay></lottie-player>
-            </div>
-        </div>
-    </section>
-
-    <!-- Equipment Management Section -->
-    <section id="equipment" class="relative bg-gray-50 py-12 sm:py-16">
-        <div class="absolute bottom-0 left-0 w-48 h-48 bg-gray-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="order-last md:order-first flex justify-center">
-                <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_Qee3YGZtZV.json"
-                               background="transparent"
-                               speed="1"
-                               style="width:150px; height:150px;"
-                               loop
-                               autoplay></lottie-player>
-            </div>
-            <div class="space-y-4">
-                <h2 class="text-3xl font-semibold text-gray-900">Управление на ресурси</h2>
-                <p class="text-gray-700 max-w-md">
-                    Добавяйте, редактирайте и следете наличностите на вашето оборудване.
-                </p>
-                <a asp-controller="Equipment" asp-action="All" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
-                    <i class="fas fa-cogs mr-2"></i> Отиди към оборудване
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Reports & Analytics Section -->
-    <section class="relative bg-white py-12 sm:py-16">
-        <div class="absolute top-0 inset-x-1/2 transform -translate-x-1/2 w-48 h-48 bg-sky-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-4">
-                <h2 class="text-3xl font-semibold text-gray-900">Отчети и анализи</h2>
-                <p class="text-gray-700 max-w-md">
-                    Генерирайте подробни справки и анализи за подобряване на ефективността и планиране на ресурсите.
-                </p>
-                <a href="#" class="inline-flex items-center px-6 py-3 bg-gray-800 text-white rounded-full font-medium shadow hover:bg-gray-900 transition">
-                    <i class="fas fa-chart-pie mr-2"></i> Виж отчети
-                </a>
-            </div>
-            <div class="flex justify-center">
-                <lottie-player  src="@Url.Content("~/lottie/analysis-digital-marketing.json")"
-                               background="transparent"
-                               speed="1"
-                               style="width:500px; height:500px;"
-                               loop
-                               autoplay></lottie-player>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="bg-gray-50 py-12 sm:py-16">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl lg:text-4xl font-semibold text-gray-900 mb-6">
-                Готови ли сте да повишите ефективността си?
-            </h2>
-            <a href="#" class="inline-flex items-center px-8 py-3 bg-sky-600 text-white rounded-full font-medium shadow-lg hover:bg-sky-700 transition">
-                <i class="fas fa-user-plus mr-2"></i> Създай акаунт
-            </a>
         </div>
     </section>
 

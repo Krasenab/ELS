@@ -40,5 +40,13 @@ namespace ELS.Controllers
             _reportService.CreateReport(viewModel);
             return RedirectToAction("Index", "Home");   
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ReportDetails(string reportId) 
+        {
+            ReportDetailViewModel report = await _reportService.GetReportAsync(reportId);
+            return View(report);
+        }
+        
     }
 }

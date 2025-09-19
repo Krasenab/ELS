@@ -98,7 +98,7 @@ namespace ELS.Service
             }).ToListAsync();
         }
 
-        public async Task<List<AllEquipmentViewModel>> GetAllFilteredEquipmentAsync(string searchTerm, string category,string status)
+        public async Task<FilteredEquipmentViewModel> GetAllFilteredEquipmentAsync(string searchTerm, string category,string status,int page=1)
         {
             List<AllEquipmentViewModel> result = new List<AllEquipmentViewModel>();
 
@@ -135,6 +135,7 @@ namespace ELS.Service
                     
                 );
             }
+            
 
             result = await query.Select(e => new AllEquipmentViewModel()
             {
@@ -155,8 +156,27 @@ namespace ELS.Service
                 CustomProperties = e.CustomProperties,
                 Notes = e.Notes
             }).ToListAsync();
+
+
+            int totalEquipment = result.Count;
+            int elementsOnPage = 5;
+
+            var pagedEquipmentResult = result
+            .Skip((page - 1) * elementsOnPage).Take(elementsOnPage).ToList();
             
-            return result;
+           
+
+            return new FilteredEquipmentViewModel
+            {
+                AllEquipment = pagedEquipmentResult,
+                TotalEquipment = totalEquipment,
+                PageNumber = page,
+                TotalPages = (int)Math.Ceiling(totalEquipment / (double)elementsOnPage)
+            };
+           
+
+           
+           
         }
 
         public async Task<EquipmentDetailsViewModel> GetEquipmentAsync(string equipmentId)

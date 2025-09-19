@@ -1,4 +1,5 @@
-﻿using Els.ViewModels.Enums;
+﻿using AspNetCoreGeneratedDocument;
+using Els.ViewModels.Enums;
 using ELS.Service;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
@@ -35,10 +36,20 @@ namespace ELS.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddEquipmentViewModel viewModel) 
         {
+            viewModel.EquipmentStatuses = _equipmentService.GetEuqipmentStatuses();
+            viewModel.Categories = await _categoryService.GetAllCategoriesAsync();
             if (!ModelState.IsValid)
             {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    if (state.Errors.Count > 0)
+                    {
+                        Console.WriteLine($"Model error: {key} = {state.Errors[0].ErrorMessage}");
+                    }
+                }
                 TempData["ErrorMessage"] = "Invalid form";
-                return View();
+                return View(viewModel);
             }
 
             await  _equipmentService.AddEquipmentAsync(viewModel);
@@ -58,17 +69,20 @@ namespace ELS.Controllers
                 StatusFilter = "",
                 AllEquipment = await _equipmentService.GetAllEquipmentAsync(),
                 Categories = await _categoryService.GetAllCategoriesAsync(),
-                Statuses = _equipmentService.GetEuqipmentStatuses()
+                Statuses = _equipmentService.GetEuqipmentStatuses(),
+                
                 
             };
             return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllFiltered(string searchTerm, string category,string status) 
+        public async Task<IActionResult> AllFiltered(string searchTerm, string category,string status,int page=1) 
         {
-          var view = await _equipmentService.GetAllFilteredEquipmentAsync(searchTerm, category,status);
-            return PartialView("_AllFilteredEquipmentPartial", view);
+            FilteredEquipmentViewModel filteredEquipment = await _equipmentService.GetAllFilteredEquipmentAsync(searchTerm, category, status,page);
+
+
+            return PartialView("_AllFilteredEquipmentPartial", filteredEquipment);
         } 
         
 

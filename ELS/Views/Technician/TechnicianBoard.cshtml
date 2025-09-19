@@ -143,13 +143,23 @@
                         <li class="flex items-center justify-between py-3">
                             <div class="space-y-1">
                                 <p class="font-medium text-gray-900">@r</p>
-                                <p class="text-sm text-gray-600">Created: @r</p>
+                                <p class="text-sm text-gray-600">Created: @r.TechnicianName</p>
                             </div>
-                            <a href="@r"
-                               class="inline-flex items-center px-3 py-1 bg-indigo-500 text-white text-xs font-medium rounded-md shadow
-                                hover:bg-indigo-600 transition">
-                                <i class="fas fa-download mr-1"></i> Download
-                            </a>
+                            <div class="flex justify-center end gap-2">
+                                <a asp-controller="Report" asp-action="ReportDetails" asp-route-reportId="@r.Id"
+                                   class="inline-flex items-center gap-1.5 rounded-full h-9 px-4 text-xs sm:text-sm font-semibold
+                                                              bg-sky-600 text-white shadow hover:bg-sky-700 transition">
+                                    <i class="fas fa-file-circle-plus"></i>
+                                    Report Details
+                                </a>
+                                <a href="@r"
+                                   class="inline-flex items-center gap-1.5 rounded-full h-9 px-4 text-xs sm:text-sm font-semibold
+                                                                      bg-sky-600 text-white shadow hover:bg-sky-700 transition">
+                                    <i class="fas fa-download mr-1"></i> Download
+                                </a>
+
+                            </div>
+                           
                         </li>
                     }
                 </ul>

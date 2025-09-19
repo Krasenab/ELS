@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using static Els.Constants.EntityValidationsConstants;
+
+
 
 namespace ELS.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterAsViewModel
     {
-      
-
         [Required]
         [MaxLength(ApplicationUserNameMaxLenght)]
         [MinLength(ApplicationUserNameMinLength)]
@@ -33,9 +34,7 @@ namespace ELS.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password does not match")]
         public string ConfirmPassword { get; set; }
-      
 
-
-
+        public string PhoneNumber { get; set; }
     }
 }

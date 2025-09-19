@@ -66,7 +66,7 @@
 
  
     <div id="allEquipmentPartial" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <partial name="_AllFilteredEquipmentPartial" model="Model.AllEquipment" />
+        <partial name="_AllFilteredEquipmentPartial" model="Model" />
     </div>
 
 </div>
@@ -77,11 +77,12 @@
 <script>
     AOS.init({ duration: 600, once: true });
 
-    function loadEquipment(search, category, status) {
+       function loadEquipment(search, category, status, page = 1) {
         $.get("/Equipment/AllFiltered", {
             searchTerm: search,
             category: category,
-            status: status
+            status: status,
+            page: page 
         }, function (html) {
             $("#allEquipmentPartial").html(html);
             AOS.refresh();
@@ -99,5 +100,13 @@
         $('#statusFilter').on("change", function () {
             loadEquipment($('#searchByText').val(), $('#categoryFilter').val(), this.value);
         });
+    });
+        $(document).on("click", ".pagination-btn", function () {
+        const page = $(this).data("page");
+        const search = $('#searchByText').val();
+        const category = $('#categoryFilter').val();
+        const status = $('#statusFilter').val();
+
+        loadEquipment(search, category, status, page);
     });
 </script>

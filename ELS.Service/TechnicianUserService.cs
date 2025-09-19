@@ -37,21 +37,18 @@ namespace ELS.Service
             }
             return true;
         }
-
         public async Task RegisterAsTechnician(RegisterAsTechnicianViewModel viewMode)
         {
-            Technician technician = new Technician() 
+            Technician technician = new Technician()
             {
                 FirmId = viewMode.FirmId,
                 PhoneNumber = viewMode.PhoneNumber,
-                AppUserId = Guid.Parse(viewMode.AppUserId)                
+                AppUserId = Guid.Parse(viewMode.AppUserId)
             };
 
             await _dbContext.Technicians.AddAsync(technician);
             await _dbContext.SaveChangesAsync();
-
-
-
         }
+
     }
 }

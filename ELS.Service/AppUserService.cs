@@ -30,6 +30,21 @@ namespace ELS.Service
             return appUser;
         }
 
+        public async Task<AppUserViewModel> GetUserByEmailAsync(string email)
+        {
+            AppUserViewModel? user = await _dbContext.AppUsers.Where(em => em.Email == email).Select(appU => new AppUserViewModel()
+            {
+                Id = appU.Id.ToString(),
+                FirstName = appU.FirstName,
+                LastName = appU.LastName,
+                FirmId = appU.FirmId,
+                Department = appU.Department,
+                Email = appU.Email
+            }).FirstOrDefaultAsync();
+
+            return user;
+        }
+
         public string UserEmail(string firmId)
         {
             string? result = _dbContext.AppUsers.Where(x=>x.FirmId==firmId).Select(e=>e.Email).FirstOrDefault();

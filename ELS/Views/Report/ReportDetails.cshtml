@@ -1,0 +1,101 @@
+﻿@model ReportDetailViewModel;
+<div class="min-h-screen bg-slate-50">
+    <div class="mx-auto max-w-4xl px-6 lg:px-8 py-10">
+
+        <!-- Header -->
+        <div class="rounded-3xl bg-white/90 backdrop-blur shadow-[0_8px_28px_rgba(2,6,23,.06)] p-6 sm:p-8 mb-8">
+            <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-start gap-4">
+                    <div class="h-14 w-14 rounded-2xl bg-sky-500/10 flex items-center justify-center">
+                        <i class="fas fa-file-alt text-sky-600 text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+                            Report Details
+                        </h1>
+                        <div class="mt-2 flex flex-wrap items-center gap-2">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-700 px-3 py-1 text-xs font-medium">
+                                <span class="h-2.5 w-2.5 rounded-full bg-sky-500"></span>
+                                Serial: @Model.ReportSerialNumber
+                            </span>
+                            <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-700 px-3 py-1 text-xs font-medium">
+                                <i class="fas fa-user-cog"></i> Technician: @Model.TechnicianName
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2">
+                    <a asp-controller="Reports" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="inline-flex items-center gap-1.5 rounded-full h-10 px-5 text-sm font-semibold
+                    bg-sky-600 text-white shadow hover:bg-sky-700 transition">
+                        <i class="fas fa-pen"></i> Edit
+                    </a>
+                    <a asp-controller="Reports" asp-action="Index"
+                       class="inline-flex items-center gap-1.5 rounded-full h-10 px-5 text-sm font-semibold
+                    bg-white text-slate-900 ring-1 ring-slate-300 hover:bg-slate-50 transition">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info tiles -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Report Serial</p>
+                <div class="mt-1 flex items-center gap-2">
+                    <p class="text-sm font-semibold text-slate-900 break-all">@Model.ReportSerialNumber</p>
+                    @if (!string.IsNullOrWhiteSpace(Model.ReportSerialNumber))
+                    {
+                        <button type="button" id="copySerialBtn"
+                                class="inline-flex items-center gap-1 rounded-full bg-slate-100 text-slate-800 text-xs font-medium px-2.5 py-1 hover:bg-slate-200 transition"
+                                data-value="@Model.ReportSerialNumber">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Technician</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.TechnicianName</p>
+            </div>
+
+            <div class="rounded-2xl bg-white shadow-sm p-6">
+                <p class="text-[11px] uppercase tracking-wide text-slate-500">Ticket</p>
+                <p class="mt-1 text-sm font-semibold text-slate-900">@Model.TicketTitle</p>
+            </div>
+        </div>
+
+        <!-- Work Description -->
+        <div class="mt-8 rounded-2xl bg-white shadow-sm p-6">
+            <h3 class="mb-3 text-base font-semibold text-slate-900 flex items-center gap-2">
+                <i class="fas fa-tools text-sky-600"></i>
+                Work Description
+            </h3>
+            <div class="text-slate-700 whitespace-pre-line leading-relaxed">
+                @Html.Raw(Model.WorkDescription)
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+          const btn = document.getElementById('copySerialBtn');
+          if (!btn) return;
+          btn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(btn.dataset.value || '');
+              const original = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied';
+              setTimeout(() => btn.innerHTML = original, 1400);
+            } catch (e) { /* тихо фейлва */ }
+          });
+        })();
+    </script>
+}

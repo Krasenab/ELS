@@ -2,6 +2,7 @@
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
 using ElsModels.SQL;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,35 @@ namespace ELS.Service
             };
             _dbContext.Reports.Add(r);
             _dbContext.SaveChanges();
+        }
+
+        public async Task<ReportDetailViewModel> GetReportAsync(string reportId)
+        {
+            ReportDetailViewModel? report = await _dbContext.Reports.Where(id => id.Id.ToString() == reportId)
+                .Select(r => new ReportDetailViewModel
+                {
+                     Id = r.Id.ToString(),
+                     ReportSerialNumber = r.ReportSerialNumber,
+                     WorkDescription = r.WorkDescription,
+                     TechnicianName = r.Technician.AppUser.FirstName,
+                     TicketTitle = r.Ticket.Title
+                }).FirstOrDefaultAsync();
+
+            return report;
+        }
+
+        public async Task<List<ReportDetailViewModel>> GetReportsByTechnicianIdAsync(string technicianId)
+        {
+            List<ReportDetailViewModel>? reports = await _dbContext.Reports.Where(techId=>techId.TechnicianId.ToString()==technicianId)
+               .Select(r => new ReportDetailViewModel
+               {
+                   Id = r.Id.ToString(),
+                   ReportSerialNumber = r.ReportSerialNumber,
+                   WorkDescription = r.WorkDescription,
+                   TechnicianName = r.Technician.AppUser.FirstName,
+                   TicketTitle = r.Ticket.Title
+               }).ToListAsync();
+            return reports;
         }
     }
 }

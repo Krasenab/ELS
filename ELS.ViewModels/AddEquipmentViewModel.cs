@@ -11,6 +11,7 @@ namespace ELS.ViewModels
         public AddEquipmentViewModel()
         {
             this.Categories = new List<CategoryViewModel>();
+            this.EquipmentStatuses = new List<EquipmentStatus>();
         }
 
         [Required]
@@ -18,8 +19,9 @@ namespace ELS.ViewModels
         public string EquipmentName { get; set; }
 
 
-        [Required]
-        public string CurrentStatus { get; set; }
+        //[Required]
+        public string? CurrentStatus { get; set; }
+        //[BindNever]
         public IEnumerable<EquipmentStatus> EquipmentStatuses { get; set; }
       
         
@@ -49,7 +51,8 @@ namespace ELS.ViewModels
         public int LifeSpanYears { get; set; }
         public string? Notes { get; set; }
         public int CategoryId { get; set; }
-        public CategoryViewModel Category { get; set; }
+        
+        public CategoryViewModel? Category { get; set; }
         public List<CategoryViewModel> Categories { get; set; }
 
 

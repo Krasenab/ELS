@@ -11,44 +11,17 @@ namespace ELS.Controllers
         private ITechnicianUserService _technicianUserService;
         private IAppUserService _appUserService;
         private ITicketService _ticketService;
-        public TechnicianController(ITechnicianUserService technicianUserService, IAppUserService appUserService, ITicketService ticketService)
+        private IReportService _reportService;
+        public TechnicianController(ITechnicianUserService technicianUserService, IAppUserService appUserService, 
+            ITicketService ticketService, IReportService reportService)
         {
             _technicianUserService = technicianUserService;
             _appUserService = appUserService;
             _ticketService = ticketService;
+            _reportService = reportService;
         }
-        [HttpGet]
-        public async Task<IActionResult> RegisterAsTechnician()
-        {
-            string getUserId = ClaimsPrincipalExtensions.getCurrentUserId(this.User);
-            AppUserViewModel appUser = await _appUserService.GetAppUserAsync(getUserId);
-            bool isUserTechincian = await _technicianUserService.IsTechnicianExistByUserIdAsync(getUserId);
-
-            if (isUserTechincian==true)
-            {
-                TempData["WarningMessage"] = "You are already a technician, you cannot register as a technician again.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            RegisterAsTechnicianViewModel model = new RegisterAsTechnicianViewModel() 
-            {
-                  Email = appUser.Email,
-                  FirstName = appUser.FirstName,
-                  LastName = appUser.LastName,
-                  
-            };
-            
-            return View(model);
-        }
-        [HttpPost]
-        public async Task<IActionResult> RegisterAsTechnician(RegisterAsTechnicianViewModel regiserViewMode) 
-        {
-            string getUserId = ClaimsPrincipalExtensions.getCurrentUserId(this.User);
-            regiserViewMode.AppUserId = getUserId;
-            await _technicianUserService.RegisterAsTechnician(regiserViewMode);
-            TempData["SuccessMessage"] = "You have successfully joined as a technician.";
-            return  RedirectToAction("Index","Home");
-        }
+        
+       
 
         [HttpGet]
         public async Task<IActionResult> TechnicianBoard(string technicianId) 
@@ -63,7 +36,7 @@ namespace ELS.Controllers
             }
 
             List<TicketDetailsViewModel> technicianTickets = await _ticketService.GetTIcketsByTechnicianIdAsync(technicianId);
-
+            List<ReportDetailViewModel> technicianRepots = await _reportService.GetReportsByTechnicianIdAsync(technicianId);
             int totalOpen = technicianTickets.Where(st=>st.Status=="Open").Count();
             int totalInProgress = technicianTickets.Where(st => st.Status == "InProgress").Count();
             int totalClosed = technicianTickets.Where(st => st.Status == "Closed").Count();
@@ -74,7 +47,8 @@ namespace ELS.Controllers
                 TotalOpen = totalOpen,
                 TotalInProgress = totalInProgress,
                 TotalClosed = totalClosed,
-                TechnicianTikets = technicianTickets
+                TechnicianTikets = technicianTickets,
+                Reports = technicianRepots
             };
 
 
