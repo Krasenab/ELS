@@ -31,12 +31,18 @@ namespace ELS.Service
 
         public async Task<bool> CheckForOwnerAsync(string ticketId)
         {
-            bool isExistOwenr = await _dbContext.Tickets.Where(x => x.TicketId.ToString() == ticketId).Select(s => s.TechnicianId == null).AnyAsync();
-            if (isExistOwenr)
+            TicketDetailsViewModel? ticket = await _dbContext.Tickets.Where(t => t.TicketId.ToString() == ticketId).Select(td=> new TicketDetailsViewModel 
+                   {
+                       Technician = td.Technician.FirmId,
+                   }
+                ).FirstOrDefaultAsync();
+
+            if (ticket.Technician == null)
             {
                 return false;
             }
             return true;
+
         }
 
         public async Task CreateTicketAsync(CreateTicketViewModel inputModel)
@@ -70,7 +76,7 @@ namespace ELS.Service
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<AllTicketsViewModel>> FilteredAllTicketsAsync(string searchTerm, string status,string priority)
+        public async Task<FilteredTicketsViewModel> FilteredAllTicketsAsync(string searchTerm, string status,string priority, int page = 1, int pageSize = 5)
         {
 
             var ticketsQuery = _dbContext.Tickets
@@ -103,22 +109,34 @@ namespace ELS.Service
                     t.Priority == priority
                 );
             }
-
-            allTickets = await ticketsQuery.Select(t=> new AllTicketsViewModel() 
+            int totalCount = await ticketsQuery.CountAsync();
+            allTickets = await ticketsQuery
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(t=> new AllTicketsViewModel() 
             {
                 Id = t.TicketId.ToString(),
                 Title = t.Title,
                 CreatedOn = t.CreatedAt.ToString(),
-                Technician = t.Technician != null && t.Technician.AppUser != null
-                        ? t.Technician.AppUser.FirstName
-                        : "—",
+                Technician = t.Technician.AppUser.FirstName,
                 Priority = t.Priority,
                 Status = t.Status,
                 EquipmentName  = t.Equipment.EquipmentName
 
             }).ToListAsync();
-   
-            return allTickets;
+           
+        
+
+            FilteredTicketsViewModel result = new FilteredTicketsViewModel()
+            {
+                AllTickets = allTickets,
+                PageNumber = page,
+                TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
+                SearchTerm = searchTerm,
+                Status = status,
+                Priority = priority
+            };
+            return result;
         }
 
         public async Task<List<AllTicketsViewModel>> GetAllTicketsAsync()
@@ -135,6 +153,31 @@ namespace ELS.Service
             }).ToListAsync();
         
         
+        }
+
+        public async Task<int> GetFilteredTicketTotalCount(string searchTerm, string status, string priority)
+        {
+            var query = _dbContext.Tickets.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                var pattern = $"%{searchTerm.Trim()}%";
+                query = query.Where(t =>
+                  EF.Functions.Like(t.Title, pattern) ||
+                  EF.Functions.Like(t.CreatedAt.ToString(),pattern) 
+                
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(status)) {
+                query = query.Where(t => t.Status == status);
+            }
+              
+
+            if (!string.IsNullOrWhiteSpace(priority))
+                query = query.Where(t => t.Priority == priority);
+
+            return await query.CountAsync();
         }
 
         public List<TicketPriority> GetPriorities()
@@ -156,7 +199,7 @@ namespace ELS.Service
                     Title = t.Title,
                     EquipmentName = t.Equipment.EquipmentName,
                     Description = t.Description,
-                    Technician = t.Technician.AppUser.FirstName ?? "Not Accepted Ticket",
+                    Technician =t.Technician.AppUser.FirstName,
                     CreatedAt = t.CreatedAt.ToString("dd-MM-yyyy"),
                     Priority = t.Priority,
                     Status = t.Status

@@ -12,6 +12,8 @@ namespace ELS.Service.Interfaces
         public Task<string> GetTechnicianIdAsync(string applicationUserId);
         public Task RegisterAsTechnician(RegisterAsTechnicianViewModel viewMode);
         public Task<bool> IsTechnicianExistByUserIdAsync(string appUserId);
+
+       
         
     }
 }

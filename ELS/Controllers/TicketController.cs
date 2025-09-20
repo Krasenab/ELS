@@ -57,9 +57,12 @@ namespace ELS.Controllers
             return View(viewModel);
         }
         [HttpGet]
-        public async Task<IActionResult> AllFilteredTickets(string searchTerm,string status,string priority) 
+        public async Task<IActionResult> AllFilteredTickets(string searchTerm,string status,string priority,int page=1) 
         {
-            List<AllTicketsViewModel> filteredView = await _ticketService.FilteredAllTicketsAsync(searchTerm, status, priority);
+            int pageSize = 5;
+            FilteredTicketsViewModel filteredView = await _ticketService.FilteredAllTicketsAsync(searchTerm, status, priority,page,pageSize);
+            
+
             return PartialView("_AllFilteredTicketsPartial",filteredView);
         }
 

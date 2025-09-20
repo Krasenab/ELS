@@ -56,7 +56,7 @@
     
     <div id ="allTicketPartial" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
 
-        <partial name="_AllFilteredTicketsPartial" model="@Model.AllTickets"></partial>
+        <partial name="_AllFilteredTicketsPartial" model="@Model"></partial>
 
     </div>    
       
@@ -70,36 +70,41 @@
 <script>
     AOS.init({ duration: 600, once: true });
 
-      function loadingTickets(search, status, priority)
-     {
-        
-
+    // Универсална функция за AJAX зареждане
+    function loadingTickets(page = 1) {
         $.get("/Ticket/AllFilteredTickets", {
-            searchTerm: search,
-            status: status,
-            priority: priority
-        }, function(html) {
-           
-
+            searchTerm: $('#search').val(),
+            status: $('#status').val(),
+            priority: $('#priority').val(),
+            page: page
+        }, function (html) {
             $("#allTicketPartial").html(html);
             AOS.refresh();
         });
     }
 
-        $(function () {
-       loadingTickets($('#search').val(), $('#status').val(), $('#priority').val());
+    $(function () {
+        // първоначално зареждане
+        loadingTickets();
 
+        // събития за филтрите
         $('#search').on("input", function () {
-            loadingTickets(this.value, $('#status').val(), $('#priority').val());
+            loadingTickets(1); // при ново търсене почваме от страница 1
         });
 
         $('#status').on("change", function () {
-            loadingTickets($('#search').val(), this.value, $('#priority').val());
+            loadingTickets(1);
         });
 
         $('#priority').on("change", function () {
-            loadingTickets($('#search').val(), $('#status').val(), this.value);
+            loadingTickets(1);
+        });
+
+        // 👉 ВАЖНО: за pagination ползваме event delegation,
+        // за да работи и след презареждане на partial-а
+        $(document).on("click", ".pagination-btn", function () {
+            var page = $(this).data("page");
+            loadingTickets(page);
         });
     });
-
 </script>

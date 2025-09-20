@@ -18,9 +18,10 @@ namespace ELS.ViewModels
 
         public List<AllTicketsViewModel> AllTickets { get; set; }
 
-        public int CurrentPage { get; set; } = 1;
+        public int PageNumber { get; set; } = 1;
+        public int TotalPages { get; set; } = 5;
 
-        public int TotalPages { get; set; } 
+        public int TotalTickets { get; set; }
 
 
     }

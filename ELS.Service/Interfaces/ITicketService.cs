@@ -10,7 +10,7 @@ namespace ELS.Service.Interfaces
 {
     public interface ITicketService
     {
-        
+        public Task<int> GetFilteredTicketTotalCount(string searchTerm, string status, string priority);
         public Task DeleteAllEquipmentTicketsAsync(string equipmentId);
         public Task<bool> CheckForOwnerAsync(string ticketId);
         public Task<List<TicketDetailsViewModel>> GetTIcketsByTechnicianIdAsync(string technicianId);
@@ -19,7 +19,7 @@ namespace ELS.Service.Interfaces
         public Task SetTechnicianAsync(string ticketId,string technicianId);
         public Task CreateTicketAsync(CreateTicketViewModel inputModel);
         public Task<List<AllTicketsViewModel>> GetAllTicketsAsync();
-        public Task<List<AllTicketsViewModel>> FilteredAllTicketsAsync(string searchTerm, string status,string priority);
+        public Task<FilteredTicketsViewModel> FilteredAllTicketsAsync(string searchTerm, string status,string priority, int page, int pageSize);
         public Task<TicketDetailsViewModel> GetTicketDetailsAsync(string ticketId);
         public List<TicketPriority> GetPriorities();     
         public List<TicketStatus> GetStatuses();    
