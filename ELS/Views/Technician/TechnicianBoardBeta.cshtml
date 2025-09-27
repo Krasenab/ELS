@@ -1,0 +1,175 @@
+﻿@using ELS.ViewModels.TichnicianViewModels
+@model TechnicianBoardViewModel
+@{
+    ViewData["Title"] = "BETA BETA BETA";
+   
+}
+
+<main class="flex-grow bg-gray-50 font-sans antialiased p-6">
+    <div class="max-w-7xl mx-auto space-y-10">
+
+        <!-- Header -->
+        <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+            <h1 class="text-3xl font-extrabold text-gray-900 flex items-center space-x-2">
+                <i class="fas fa-tachometer-alt text-sky-600"></i>
+                <span>Technician Dashboard</span>
+            </h1>
+            <p class="mt-2 sm:mt-0 text-gray-700">Welcome back, @User.Identity.Name!</p>
+        </header>
+
+        <!-- Stats Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4">
+                <div class="p-4 bg-green-100 rounded-full">
+                    <i class="fas fa-folder-open text-green-600 text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase">Open Tickets</p>
+                    <p class="text-3xl font-bold text-gray-900">@Model.TotalOpen</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4">
+                <div class="p-4 bg-yellow-100 rounded-full">
+                    <i class="fas fa-spinner text-yellow-600 text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase">In Progress</p>
+                    <p class="text-3xl font-bold text-gray-900">@Model.TotalInProgress</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center space-x-4">
+                <div class="p-4 bg-red-100 rounded-full">
+                    <i class="fas fa-check-circle text-red-600 text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-500 uppercase">Closed Tickets</p>
+                    <p class="text-3xl font-bold text-gray-900">@Model.TotalClosed</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Tickets Table (Search + Partial Container) -->
+        <section class="bg-white rounded-2xl shadow-lg p-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">My Assigned Tickets</h2>
+                <input id="ticketSearch" type="search" placeholder="Search tickets..."
+                       class="mt-2 sm:mt-0 px-4 py-2 border border-gray-300 rounded-full bg-gray-100 text-gray-700
+                      focus:outline-none focus:ring-2 focus:ring-sky-300 transition w-full sm:w-64" />
+            </div>
+
+            <!-- AJAX-loaded table -->
+            <div id="ticketsContainer">
+              
+            </div>
+        </section>
+
+        <!-- Recent Reports -->
+        <section class="bg-white rounded-2xl shadow-2xl p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">
+                    <i class="fas fa-file-alt text-indigo-500 mr-2"></i>
+                    Recent Reports
+                </h2>
+                <a asp-controller="Reports" asp-action="Index" class="text-sm text-sky-600 hover:underline">
+                    View all →
+                </a>
+            </div>
+            @if (Model.Reports.Any())
+            {
+                <ul class="divide-y divide-gray-200">
+                    @foreach (var r in Model.Reports)
+                    {
+                        <li class="flex items-center justify-between py-3">
+                            <div class="space-y-1">
+                                <p class="font-medium text-gray-900">@r</p>
+                                <p class="text-sm text-gray-600">Created: @r.TechnicianName</p>
+                            </div>
+                            <div class="flex justify-center end gap-2">
+                                <a asp-controller="Report" asp-action="ReportDetails" asp-route-reportId="@r.Id"
+                                   class="inline-flex items-center gap-1.5 rounded-full h-9 px-4 text-xs sm:text-sm font-semibold
+                                                  bg-sky-600 text-white shadow hover:bg-sky-700 transition">
+                                    <i class="fas fa-file-circle-plus"></i> Report Details
+                                </a>
+                                <a href="@r"
+                                   class="inline-flex items-center gap-1.5 rounded-full h-9 px-4 text-xs sm:text-sm font-semibold
+                                                  bg-sky-600 text-white shadow hover:bg-sky-700 transition">
+                                    <i class="fas fa-download mr-1"></i> Download
+                                </a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-center text-gray-500 py-8">
+                    No reports available.
+                </p>
+            }
+        </section>
+
+    </div>
+</main>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var technicianId = '@Model.TechnicianId';
+            var pageSize = 5;
+            var searchTimeout = null;
+            var currentPage = 1;
+
+            function loadTickets(page, searchTerm) {
+                $.ajax({
+                    url: '@Url.Action("TechnicianTicketsPartial", "Technician")',
+                    method: 'GET',
+                    data: {
+                        technicianId: technicianId,
+                        page: page,
+                        pageSize: pageSize,
+                        search: searchTerm
+                    },
+                    beforeSend: function () {
+                        $('#ticketsContainer').addClass('opacity-50');
+                    },
+                    success: function (html) {
+                        $('#ticketsContainer').html(html);
+                    },
+                    error: function () {
+                        $('#ticketsContainer').html(
+                            '<div class="text-center py-4 text-red-500">Error loading tickets.</div>'
+                        );
+                    },
+                    complete: function () {
+                        $('#ticketsContainer').removeClass('opacity-50');
+                    }
+                });
+            }
+
+            // Search debounce
+            $('#ticketSearch').on('input', function () {
+                clearTimeout(searchTimeout);
+                var searchTerm = $(this).val();
+                searchTimeout = setTimeout(function () {
+                    currentPage = 1;
+                    loadTickets(currentPage, searchTerm);
+                }, 400);
+            });
+
+            // Pagination click
+            $(document).on('click', '.page-btn', function (e) {
+                e.preventDefault();
+                var page = parseInt($(this).data('page'));
+                if (!isNaN(page)) {
+                    currentPage = page;
+                    var search = $('#ticketSearch').val();
+                    loadTickets(currentPage, search);
+                }
+            });
+
+            // 🔁 Load initial page
+            loadTickets(1, '');
+        });
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@using ELS.ViewModels.RportsVIewModels
+@model AllReportMainViewModel
+<div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-100 text-gray-600 uppercase font-medium text-xs">
+            <tr>
+                <th class="px-6 py-3 text-left">Serial #</th>
+                <th class="px-6 py-3 text-left">Ticket Title</th>
+                <th class="px-6 py-3 text-left">Equipment</th>
+                <th class="px-6 py-3 text-left">Technician ID</th>
+                <th class="px-6 py-3 text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="reportTableBody" class="divide-y divide-gray-100 bg-white text-gray-800">
+            @foreach (var r in Model.Reports)
+            {
+                <tr class="hover:bg-gray-50 transition-all" data-serial="@r.ReportSerialNumber.ToLower()">
+                    <td class="px-6 py-4">@r.ReportSerialNumber</td>
+                    <td class="px-6 py-4">@r.TicketTitle</td>
+                    <td class="px-6 py-4">@r.EqupmentName</td>
+                    <td class="px-6 py-4">@r.TechnicianFirmId</td>
+                    <td class="px-6 py-4 text-right space-x-2">
+                        <a asp-action="Details" asp-route-id="@r.ReportSerialNumber"
+                           class="inline-flex items-center px-3 py-1.5 bg-sky-500 text-white text-xs font-medium rounded-md shadow hover:bg-sky-600 transition">
+                            <i class="fas fa-eye mr-1"></i> View
+                        </a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Reports.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center px-6 py-6 text-gray-500">
+                        No reports found.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

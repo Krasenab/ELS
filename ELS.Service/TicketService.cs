@@ -2,6 +2,7 @@
 using ELS.Data;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
+using ELS.ViewModels.TichnicianViewModels;
 using ElsModels.SQL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -91,8 +92,8 @@ namespace ELS.Service
 
                 ticketsQuery = ticketsQuery.Where(t =>
                  EF.Functions.Like(t.Title, pattern) ||
-                 (t.Technician != null && t.Technician.AppUser != null &&
-                 EF.Functions.Like(t.Technician.AppUser.FirstName ?? "", pattern))
+                 EF.Functions.Like(t.Equipment.EquipmentName,pattern)||
+                 EF.Functions.Like(t.Description,pattern)
                      );
             }
 
@@ -233,6 +234,48 @@ namespace ELS.Service
             }
 
             return true;
+
+        }
+        // trqbva da se iztire tova ako ne raboti 
+        public async Task<PagedMyTicketsViewModel> PagedAndFilteredMyTickets(string technicianId, string searchTerm, int page, int pageSize)
+        {
+            var query = _dbContext.Tickets.AsNoTracking().Include(e => e.Equipment).Where(x => x.TechnicianId.ToString() == technicianId).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm) || !string.IsNullOrWhiteSpace(searchTerm))
+            {
+                string search = $"{searchTerm.Trim()}%";
+                query = query.Where(t => EF.Functions.Like(t.Title, search) ||
+                EF.Functions.Like(t.Description,search) ||
+                EF.Functions.Like(t.Priority,search) ||
+                EF.Functions.Like(t.Status,search));
+            }
+
+            int totalItems = query.Count();
+
+            var pagedTickets = query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(t => new TicketDetailsViewModel
+            {
+                Id = t.TicketId.ToString(),
+                Title = t.Title,
+                EquipmentName = t.Equipment.EquipmentName,
+                Status = t.Status,
+                Priority = t.Priority
+            })
+            .ToListAsync();
+
+            
+
+            return  new PagedMyTicketsViewModel
+            {
+                TechnicianId = technicianId,
+                Tickets = await pagedTickets,
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                Search = searchTerm
+            };
 
         }
 

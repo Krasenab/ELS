@@ -1,0 +1,73 @@
+﻿@using ELS.ViewModels.RportsVIewModels
+@model AllReportMainViewModel
+@{
+    ViewData["Title"] = "All Reports";
+    Layout = "_Layout";
+}
+
+<main class="flex-grow bg-gray-50 font-sans antialiased p-6">
+    <div class="max-w-7xl mx-auto space-y-10">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between">
+            <h1 class="text-3xl font-extrabold text-gray-900 flex items-center space-x-2">
+                <i class="fas fa-file-alt text-sky-600"></i>
+                <span>All Reports</span>
+            </h1>
+            <div class="mt-4 sm:mt-0">
+                <input type="search" id="reportSearch" placeholder="Search reports..."
+                       class="px-4 py-2 border border-gray-300 rounded-full bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 transition w-full sm:w-72" />
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div id="allReportsPartial" class="bg-white shadow-lg rounded-2xl overflow-hidden">
+            <partial name="_AllFilteredReportsPartial" model="Model"></partial>
+        </div>
+
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+<script>
+
+    AOS.init({duration:600,once:true});
+        function debounce(func, delay) {
+        let timeoutId;
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func.apply(context, args);
+            }, delay);
+        };
+    }
+
+    function loadReports(search,page)
+    {
+        $.get("/Report/AllFilteredReports",{
+          searchTerm:search,
+          page:page
+        },function(html){
+            $('#allReportsPartial').html(html);
+            AOS.refresh();
+
+        });
+    }
+
+       const debouncedSearch = debounce(function () {
+        loadReports($('#reportSearch').val());
+    }, 300); // Така правя за да може да изчакаме 300мс пуза преди да се изпрати заявката по този начин не пращаме много заявки
+
+
+        $(function(){
+        loadReports("@Model.SearchTerm")
+         // $('#reportSearch').on('input',function(){
+         //      loadReports(this.value);
+
+         // });
+          $('#reportSearch').on('input', debouncedSearch);
+    });
+</script>

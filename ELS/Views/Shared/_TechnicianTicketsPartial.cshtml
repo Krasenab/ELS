@@ -1,0 +1,91 @@
+﻿@using ELS.ViewModels.TichnicianViewModels
+@model PagedMyTicketsViewModel
+
+<div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Equipment</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th class="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase">Priority</th>
+                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody class="bg-white divide-y divide-gray-200">
+            @if (Model.Tickets.Any())
+            {
+                foreach (var t in Model.Tickets)
+                {
+                    var st = t.Status ?? "";
+                    var (bg, txt) = st switch
+                    {
+                        "Open" => ("bg-green-100", "text-green-800"),
+                        "In Progress" => ("bg-yellow-100", "text-yellow-800"),
+                        "Closed" => ("bg-red-100", "text-red-800"),
+                        _ => ("bg-gray-100", "text-gray-800")
+                    };
+
+                    <tr data-title="@t.Title.ToLower()" class="hover:bg-gray-50 transition">
+                        <td class="px-4 py-3 text-sm text-gray-900">@t.Title</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">@t.EquipmentName</td>
+                        <td class="px-4 py-3 text-center">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full @bg @txt">@st</span>
+                        </td>
+                        <td class="px-4 py-3 text-center text-sm text-gray-700">@t.Priority</td>
+
+                        <td class="px-4 py-3">
+                            <div class="flex justify-end items-center gap-2">
+                                <a asp-controller="Report" asp-action="CreateReport" asp-route-ticketId="@t.Id"
+                                   class="inline-flex items-center gap-1.5 rounded-full h-9 px-4 text-xs sm:text-sm font-semibold
+                                                  bg-sky-600 text-white shadow hover:bg-sky-700 transition">
+                                    <i class="fas fa-file-circle-plus"></i> Create Report
+                                </a>
+
+                                <a asp-controller="Ticket" asp-action="MyTicketDetails" asp-route-id="@t.Id"
+                                   class="inline-flex items-center gap-1.5 rounded-full h-9 px-4 text-xs sm:text-sm font-semibold
+                                                  bg-white text-gray-900 ring-1 ring-gray-300 hover:bg-gray-50 transition">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="px-4 py-6 text-center text-gray-500">
+                        No tickets assigned to you.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination controls -->
+@if (Model.TotalPages > 1)
+{
+    <div class="flex justify-end mt-4 space-x-1">
+        <button class="page-btn px-3 py-1 rounded border text-sm"
+                data-page="@(Model.Page - 1)" @(Model.Page < 1 ? "disabled" : "")>
+            &laquo;
+        </button>
+
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            var active = i == Model.Page ? "bg-sky-500 text-white" : "hover:bg-gray-100";
+            <button class="page-btn px-3 py-1 rounded border text-sm @active"
+                    data-page="@i">
+                @i
+            </button>
+        }
+
+        <button class="page-btn px-3 py-1 rounded border text-sm"
+                data-page="@(Model.Page + 1)" @(Model.Page >= Model.TotalPages ? "disabled" : "")>
+            &raquo;
+        </button>
+    </div>
+}

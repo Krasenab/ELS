@@ -21,7 +21,7 @@ namespace ELS.ViewModels
         public int PageNumber { get; set; } = 1;
         public int TotalPages { get; set; } = 5;
 
-        public int TotalTickets { get; set; }
+
 
 
     }

@@ -1,6 +1,7 @@
 ﻿using ELS.Infrastrucure;
 using ELS.Service.Interfaces;
 using ELS.ViewModels;
+using ELS.ViewModels.RportsVIewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using System.Threading.Tasks;
@@ -46,6 +47,26 @@ namespace ELS.Controllers
         {
             ReportDetailViewModel report = await _reportService.GetReportAsync(reportId);
             return View(report);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllReports() 
+        {
+            AllReportMainViewModel reports = new AllReportMainViewModel()
+            {
+                SearchTerm = "",
+                Reports = await _reportService.GetAllReportsAsync()
+            };
+
+            return View(reports);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllFilteredReports(string searchTerm,int page=1) 
+        {
+           AllReportMainViewModel allReportMainViewModel = await _reportService.FilteredReports(searchTerm,page);
+
+            return PartialView("_AllFilteredReportsPartial",allReportMainViewModel);
         }
         
     }
