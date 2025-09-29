@@ -10,6 +10,7 @@ namespace ELS.Service.Interfaces
 {
     public interface IReportService
     {
+        public Task<bool> HasReportForTicketAsync(string ticketId);
         public Task<AllReportMainViewModel> FilteredReports(string searchTerm,int page);
         public Task<List<AllReportsVIewModel>> GetAllReportsAsync();
         public Task<List<ReportDetailViewModel>> GetReportsByTechnicianIdAsync(string technicianId);

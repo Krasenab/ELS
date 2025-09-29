@@ -33,7 +33,9 @@
 <script>
 
     AOS.init({duration:600,once:true});
-        function debounce(func, delay) {
+    
+    function debounce(func, delay) 
+    {
         let timeoutId;
         return function () {
             const context = this;
@@ -57,17 +59,25 @@
         });
     }
 
-       const debouncedSearch = debounce(function () {
+    const debouncedSearch = debounce(function () {
         loadReports($('#reportSearch').val());
     }, 300); // Така правя за да може да изчакаме 300мс пуза преди да се изпрати заявката по този начин не пращаме много заявки
 
 
-        $(function(){
+    $(function(){
         loadReports("@Model.SearchTerm")
          // $('#reportSearch').on('input',function(){
          //      loadReports(this.value);
 
-         // });
-          $('#reportSearch').on('input', debouncedSearch);
+         // }); // това е нормално (нормалният listener) извикване веднага извиква
+          $('#reportSearch').on('input', debouncedSearch); // извикваме с дебаунс тука за онзи ефекет
+    });
+
+    $(document).on("click",".btn-pagination",function()
+    {
+        const page = $(this).data("page");
+        const search = $('#reportSearch').val();
+         loadReports(search,page);
+
     });
 </script>

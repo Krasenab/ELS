@@ -57,13 +57,24 @@ namespace ELS.Service
                  TicketTitle = r.Ticket.Title,
 
             }).ToListAsync();
+            var pageSize = 5;
             int totalCount = allFiltered.Count;
-            var totalList =  allFiltered.Skip((page - 1) * 3).Take(3).ToList();
+            
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            var pagedList = allFiltered
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
 
             AllReportMainViewModel result = new AllReportMainViewModel()
             {
-                
-                Reports = allFiltered,
+
+                SearchTerm = searchTerm,
+                PageNumber = page,
+              //  PageSize = pageSize,
+                TotalPages = totalPages,
+                Reports = pagedList,
             };
             return result;
         }
@@ -109,6 +120,12 @@ namespace ELS.Service
                    TicketTitle = r.Ticket.Title
                }).ToListAsync();
             return reports;
+        }
+
+        public async Task<bool> HasReportForTicketAsync(string ticketId)
+        {
+            bool hasReport =  await _dbContext.Reports.Where(t=>t.TicketId.ToString()==ticketId).AnyAsync();
+            return hasReport;
         }
     }
 }
